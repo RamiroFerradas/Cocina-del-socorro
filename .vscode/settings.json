@@ -1,0 +1,29 @@
+{
+  "prettier.enable": true,
+  "prettier.embeddedLanguageFormatting": "auto",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "eslint.validate": ["javascript"],
+  "cSpell.words": ["Availables", "dirección", "Nombre", "Número"],
+  "workbench.colorCustomizations": {
+    "activityBar.activeBackground": "#ba00f2",
+    "activityBar.background": "#ba00f2",
+    "activityBar.foreground": "#e7e7e7",
+    "activityBar.inactiveForeground": "#e7e7e799",
+    "activityBarBadge.background": "#dfab00",
+    "activityBarBadge.foreground": "#15202b",
+    "commandCenter.border": "#e7e7e799",
+    "sash.hoverBorder": "#ba00f2",
+    "statusBar.background": "#9300bf",
+    "statusBar.foreground": "#e7e7e7",
+    "statusBarItem.hoverBackground": "#ba00f2",
+    "statusBarItem.remoteBackground": "#9300bf",
+    "statusBarItem.remoteForeground": "#e7e7e7",
+    "titleBar.activeBackground": "#9300bf",
+    "titleBar.activeForeground": "#e7e7e7",
+    "titleBar.inactiveBackground": "#9300bf99",
+    "titleBar.inactiveForeground": "#e7e7e799"
+  },
+  "peacock.color": "#9300bf"
+}
