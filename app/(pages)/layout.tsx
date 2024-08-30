@@ -7,9 +7,9 @@ export default function RootLayout({
 }>) {
   return (
     <main lang="en">
-      <div>
+      <div className="flex">
         <Sidebar />
-        {children}
+        <div className="p-4">{children}</div>
       </div>
     </main>
   );
