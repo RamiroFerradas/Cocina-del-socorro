@@ -18,7 +18,23 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="flex bg-gray-100 w-screen min-h-screen">
+        <div className="md:hidden flex items-center justify-center h-screen bg-red-100">
+          <div className="text-center">
+            <h2 className="text-xl font-bold text-red-600">
+              Dispositivo No Compatible
+            </h2>
+            <p className="text-gray-700 mt-2">
+              Este sistema está diseñado para ser utilizado en dispositivos con
+              pantallas más grandes, como computadoras de escritorio o
+              portátiles.
+            </p>
+            <p className="text-gray-700 mt-1">
+              Por favor, accede desde un dispositivo compatible para obtener la
+              mejor experiencia.
+            </p>
+          </div>
+        </div>
+        <div className="hidden md:flex bg-gray-100 w-screen min-h-screen ">
           <Sidebar />
           <div className="w-[calc(100vw-16rem)]">
             <Header />
