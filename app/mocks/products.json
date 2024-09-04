@@ -1,0 +1,102 @@
+[
+  {
+    "id": 1,
+    "name": "Wireless Headphones",
+    "description": "High-quality wireless headphones with noise cancellation.",
+    "price": 149.99,
+    "category": "Electronics",
+    "sku": "WH-1000XM4",
+    "brand": "Sony",
+    "image_url": "https://example.com/images/wireless_headphones.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Running Shoes",
+    "description": "Comfortable running shoes with excellent grip and support.",
+    "price": 89.99,
+    "category": "Footwear",
+    "sku": "RS-2345",
+    "brand": "Nike",
+    "image_url": "https://example.com/images/running_shoes.jpg"
+  },
+  {
+    "id": 3,
+    "name": "Smartwatch",
+    "description": "Feature-packed smartwatch with fitness tracking and notifications.",
+    "price": 199.99,
+    "category": "Wearables",
+    "sku": "SMW-9876",
+    "brand": "Apple",
+    "image_url": "https://example.com/images/smartwatch.jpg"
+  },
+  {
+    "id": 4,
+    "name": "Espresso Machine",
+    "description": "Compact espresso machine with multiple brew settings.",
+    "price": 249.99,
+    "category": "Kitchen Appliances",
+    "sku": "ESM-4567",
+    "brand": "De'Longhi",
+    "image_url": "https://example.com/images/espresso_machine.jpg"
+  },
+  {
+    "id": 5,
+    "name": "Gaming Laptop",
+    "description": "High-performance gaming laptop with powerful GPU and fast display.",
+    "price": 1299.99,
+    "category": "Computers",
+    "sku": "GL-7890",
+    "brand": "ASUS",
+    "image_url": "https://example.com/images/gaming_laptop.jpg"
+  },
+  {
+    "id": 6,
+    "name": "Bluetooth Speaker",
+    "description": "Portable Bluetooth speaker with deep bass and long battery life.",
+    "price": 79.99,
+    "category": "Audio",
+    "sku": "BTS-1234",
+    "brand": "JBL",
+    "image_url": "https://example.com/images/bluetooth_speaker.jpg"
+  },
+  {
+    "id": 7,
+    "name": "Electric Toothbrush",
+    "description": "Rechargeable electric toothbrush with multiple brushing modes.",
+    "price": 59.99,
+    "category": "Personal Care",
+    "sku": "ETB-3456",
+    "brand": "Philips",
+    "image_url": "https://example.com/images/electric_toothbrush.jpg"
+  },
+  {
+    "id": 8,
+    "name": "4K TV",
+    "description": "55-inch 4K Ultra HD TV with HDR and smart functionality.",
+    "price": 499.99,
+    "category": "Television",
+    "sku": "TV-5567",
+    "brand": "Samsung",
+    "image_url": "https://example.com/images/4k_tv.jpg"
+  },
+  {
+    "id": 9,
+    "name": "Instant Pot",
+    "description": "Multi-functional pressure cooker with 7-in-1 cooking features.",
+    "price": 89.99,
+    "category": "Kitchen Appliances",
+    "sku": "IP-6789",
+    "brand": "Instant Pot",
+    "image_url": "https://example.com/images/instant_pot.jpg"
+  },
+  {
+    "id": 10,
+    "name": "Digital Camera",
+    "description": "Compact digital camera with 20MP sensor and 4K video recording.",
+    "price": 649.99,
+    "category": "Cameras",
+    "sku": "DC-1237",
+    "brand": "Canon",
+    "image_url": "https://example.com/images/digital_camera.jpg"
+  }
+]

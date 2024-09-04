@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { FiLogOut } from "react-icons/fi";
 import {
@@ -9,6 +8,7 @@ import {
   staffMenu,
   suppliersMenu,
 } from "../menus";
+import { homeMenu } from "../menus/homeMenu";
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -24,24 +24,17 @@ export function Sidebar() {
       return staffMenu;
     } else if (pathname.startsWith("/suppliers")) {
       return suppliersMenu;
+    } else if (pathname.startsWith("/home")) {
+      return homeMenu;
     } else {
       return [];
     }
   };
-
   const menuItems = getMenuItems();
 
   return (
     <div className="min-h-screen w-64 bg-white shadow-lg flex flex-col">
-      <div className="flex items-center justify-center p-6 border-b">
-        <Image
-          src="/logo.png"
-          alt="Logo"
-          width={120}
-          height={40}
-          className="object-contain"
-        />
-      </div>
+      <div className="p-6 border-b font-bold">Cocina del Socorro</div>
 
       <nav className="flex flex-col flex-grow p-4">
         {menuItems.map((item, index) => (

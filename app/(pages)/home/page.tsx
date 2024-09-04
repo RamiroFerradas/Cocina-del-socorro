@@ -15,6 +15,7 @@ export default function Home() {
       category: "COMERCIAL",
       icon: FiShoppingCart,
       link: "/sales",
+      color: "orange-500",
     },
     {
       title: "Productos",
@@ -22,6 +23,7 @@ export default function Home() {
       category: "INVENTARIO",
       icon: FiBox,
       link: "/products",
+      color: "green-500",
     },
     {
       title: "Sucursales",
@@ -29,6 +31,7 @@ export default function Home() {
       category: "OPERATIVO",
       icon: FiHome,
       link: "/branches",
+      color: "blue-500",
     },
     {
       title: "Personal",
@@ -36,6 +39,7 @@ export default function Home() {
       category: "RECURSOS HUMANOS",
       icon: FiUsers,
       link: "/staff",
+      color: "yellow-500",
     },
     {
       title: "Proveedores",
@@ -43,30 +47,27 @@ export default function Home() {
       category: "COMPRAS",
       icon: FiTruck,
       link: "/suppliers",
+      color: "purple-500",
     },
   ];
+
   return (
-    <main className="flex justify-center items-center h-screen overflow-auto p-16 w-screen bg-gray-100">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 p-4 w-full">
-        {items.map((item, index) => (
-          <Link
-            href={item.link}
-            key={index}
-            className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 flex flex-col"
-          >
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-center items-center p-8">
+      {items.map((item, index) => (
+        <Link
+          href={item.link}
+          key={index}
+          className={`bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 flex flex-col}`}
+        >
+          <div className="flex flex-col">
             <div className="flex items-center mb-2">
-              <item.icon className="h-6 w-6 text-gray-500 mr-2" />
-              <div className="text-sm font-medium text-gray-500">
-                {item.title}
-              </div>
+              <item.icon className={`mr-2 text-2xl text-${item.color}`} />
+              <div className="text-sm text-gray-700">{item.title}</div>
             </div>
-            {/* <div className="mt-2 text-lg font-semibold text-gray-900">
-              {item.title}
-            </div> */}
             <div className="mt-2 text-gray-700">{item.description}</div>
-          </Link>
-        ))}
-      </div>
-    </main>
+          </div>
+        </Link>
+      ))}
+    </div>
   );
 }

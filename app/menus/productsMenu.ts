@@ -1,6 +1,18 @@
-import { FiBox, FiTag, FiList, FiLayers, FiArchive } from "react-icons/fi";
+import {
+  FiBox,
+  FiTag,
+  FiList,
+  FiLayers,
+  FiArchive,
+  FiHome,
+} from "react-icons/fi";
 
 export const productsMenu = [
+  {
+    title: "Home",
+    icon: FiHome,
+    link: "/home",
+  },
   {
     title: "Inventario",
     icon: FiBox,
