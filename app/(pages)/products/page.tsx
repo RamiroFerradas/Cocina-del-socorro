@@ -1,10 +1,10 @@
-"use server";
 import { fetchAllProducts } from "@/app/services/fetchProducts";
 import { Product } from "@/app/models/Product";
 import ProductCard from "./components/ProductCard";
 import { Suspense } from "react";
 import ProductCardSkeleton from "./components/ProductCardSkeleton";
 import { handleUnauthorizedError } from "@/app/lib/handleUnauthorizedError";
+export const dynamic = "force-dynamic";
 
 export default async function Products() {
   const productsPromise = fetchAllProducts();
