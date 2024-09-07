@@ -1,16 +1,10 @@
 "use client";
 import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { loginUser } from "@/app/services/auth";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import {
-  TextField,
-  IconButton,
-  InputAdornment,
-  CircularProgress,
-} from "@mui/material";
+import { useRouter, useSearchParams } from "next/navigation";
+import { IconButton, CircularProgress } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { cookies } from "next/headers";
 import { deleteUserCookie } from "@/app/services/cookies/delete";
 
 type LoginFormInputs = {
@@ -75,7 +69,9 @@ const Login = () => {
             <label className="block text-gray-700">Password</label>
             <div className="relative">
               <input
-                {...register("password", { required: "Password is required" })}
+                {...register("password", {
+                  required: "Password is required",
+                })}
                 className="w-full p-2 border border-gray-300 rounded mt-1"
                 type={showPassword ? "text" : "password"}
                 placeholder="Password"
@@ -110,4 +106,12 @@ const Login = () => {
   );
 };
 
-export default Login;
+const Page = () => {
+  return (
+    <Suspense fallback={<CircularProgress />}>
+      <Login />
+    </Suspense>
+  );
+};
+
+export default Page;

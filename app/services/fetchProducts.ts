@@ -8,8 +8,6 @@ function delay(ms: number) {
 
 export async function fetchAllProducts(): Promise<Product[]> {
   try {
-    await delay(1000);
-
     const response = await api("/products");
     return response.data;
   } catch (error: any) {
