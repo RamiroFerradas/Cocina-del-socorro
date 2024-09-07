@@ -1,6 +1,6 @@
 "use server";
+import api from "@/app/lib/axios";
 import { Product } from "@/app/models/Product";
-import api from "../lib/axios";
 
 function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));

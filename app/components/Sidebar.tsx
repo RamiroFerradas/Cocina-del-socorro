@@ -1,5 +1,5 @@
 "use client";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { FiLogOut } from "react-icons/fi";
 import {
   salesMenu,
@@ -13,8 +13,6 @@ import { logoutUser } from "../services/auth";
 
 export function Sidebar() {
   const pathname = usePathname();
-  const router = useRouter();
-
   const getMenuItems = () => {
     if (pathname.startsWith("/sales")) {
       return salesMenu;
@@ -38,8 +36,10 @@ export function Sidebar() {
   const menuItems = getMenuItems();
 
   return (
-    <div className="min-h-screen w-64 bg-white shadow-lg flex flex-col">
-      <div className="p-6 border-b font-bold">Cocina del Socorro</div>
+    <div className="min-h-16 w-64 bg-white shadow-lg flex flex-col max-h-screen overflow-auto">
+      <div className="border-b font-bold min-h-16 m-auto flex justify-center items-center w-full">
+        Cocina del Socorro
+      </div>
 
       <nav className="flex flex-col flex-grow p-4">
         {menuItems.map((item, index) => (

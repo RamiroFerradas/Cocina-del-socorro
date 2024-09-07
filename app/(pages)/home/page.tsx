@@ -1,3 +1,4 @@
+import { Header } from "@/app/components/Header";
 import Link from "next/link";
 import {
   FiBox,
@@ -52,22 +53,25 @@ export default function Home() {
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-center items-center p-8">
-      {items.map((item, index) => (
-        <Link
-          href={item.link}
-          key={index}
-          className={`bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 flex flex-col}`}
-        >
-          <div className="flex flex-col">
-            <div className="flex items-center mb-2">
-              <item.icon className={`mr-2 text-2xl text-${item.color}`} />
-              <div className="text-sm text-gray-700">{item.title}</div>
+    <>
+      <Header />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-center items-center p-8">
+        {items.map((item, index) => (
+          <Link
+            href={item.link}
+            key={index}
+            className={`bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 flex flex-col}`}
+          >
+            <div className="flex flex-col">
+              <div className="flex items-center mb-2">
+                <item.icon className={`mr-2 text-2xl text-${item.color}`} />
+                <div className="text-sm text-gray-700">{item.title}</div>
+              </div>
+              <div className="mt-2 text-gray-700">{item.description}</div>
             </div>
-            <div className="mt-2 text-gray-700">{item.description}</div>
-          </div>
-        </Link>
-      ))}
-    </div>
+          </Link>
+        ))}
+      </div>
+    </>
   );
 }

@@ -1,4 +1,4 @@
-import { Sidebar, Header } from "../components";
+import { Sidebar } from "../components";
 
 export default function PagesLayout({
   children,
@@ -9,8 +9,7 @@ export default function PagesLayout({
     <section className="hidden md:flex bg-gray-100 w-screen overflow-auto min-h-screen ">
       <Sidebar />
       <div className="w-[calc(100vw-16rem)] ">
-        <Header />
-        <div className="p-4 ">{children}</div>
+        <div className="max-h-screen overflow-auto pt-11">{children}</div>
       </div>
     </section>
   );

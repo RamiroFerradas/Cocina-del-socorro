@@ -10,7 +10,7 @@ export default function ProductCard({ product: productApi }: ProductCardProps) {
   const [product, setProduct] = useState<Product | null>(null);
   useEffect(() => {
     setProduct(productApi);
-  }, []);
+  }, [productApi]);
 
   return (
     product && (
