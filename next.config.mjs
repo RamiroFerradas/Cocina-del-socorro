@@ -9,6 +9,9 @@ const nextConfig = {
       },
     ];
   },
+  images: {
+    domains: ["example.com", "https://example.com"], // Solo el nombre de dominio, sin "https://"
+  },
 };
 
 export default nextConfig;

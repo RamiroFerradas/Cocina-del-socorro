@@ -15,7 +15,6 @@ const Products = ({ products }: Props) => {
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Función de filtrado personalizada
   const customFilterFunction = (data: Product[], searchTerm: string) => {
     return data.filter((product) =>
       product.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -43,18 +42,9 @@ const Products = ({ products }: Props) => {
       />
 
       <div className="container mx-auto py-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-4">
-        <Suspense
-          fallback={Array.from({ length: 9 }).map((_, index) => (
-            <ProductCardSkeleton key={index} />
-          ))}
-        >
-          {/* Aquí se renderizan los productos filtrados */}
-          <>
-            {filteredProducts.map((product: Product, index) => (
-              <ProductCard key={index} product={product} />
-            ))}
-          </>
-        </Suspense>
+        {filteredProducts.map((product: Product, index) => (
+          <ProductCard key={index} product={product} />
+        ))}
       </div>
       <ProductModal
         isOpen={isModalOpen}
