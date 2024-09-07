@@ -35,7 +35,7 @@ const Products = ({ products }: Props) => {
   };
 
   return (
-    <>
+    <section>
       <Header
         filterFunction={handleFilter}
         onAdd={() => setIsModalOpen(true)}
@@ -51,7 +51,7 @@ const Products = ({ products }: Props) => {
         onClose={() => setIsModalOpen(false)}
         onAddSuccess={handleSubmit}
       />
-    </>
+    </section>
   );
 };
 

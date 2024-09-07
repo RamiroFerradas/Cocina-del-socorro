@@ -1,8 +1,15 @@
 import { Card, CardContent, Skeleton } from "@mui/material";
 
-export default function ProductCardSkeleton() {
+interface ProductCardSkeletonProps {
+  id: number;
+}
+
+export default function ProductCardSkeleton({ id }: ProductCardSkeletonProps) {
   return (
-    <Card className="w-full min-w-72 max-w-sm bg-white shadow-md rounded-lg overflow-hidden">
+    <Card
+      id={`skeleton-${id}`} // Usamos `id` como identificador
+      className="w-full min-w-72 max-w-sm bg-white shadow-md rounded-lg overflow-hidden"
+    >
       <Skeleton variant="rectangular" height={200} />
       <CardContent>
         <Skeleton variant="text" width="80%" />
