@@ -1,11 +1,10 @@
 "use client";
 import { useForm } from "react-hook-form";
 import { Suspense, useEffect, useState } from "react";
-import { loginUser } from "@/app/services/auth";
+import { loginUser, deleteUserCookie } from "@/app/services";
 import { useRouter, useSearchParams } from "next/navigation";
 import { IconButton, CircularProgress } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { deleteUserCookie } from "@/app/services/cookies/delete";
 
 type LoginFormInputs = {
   username: string;

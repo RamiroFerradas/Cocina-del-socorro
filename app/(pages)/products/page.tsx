@@ -1,8 +1,8 @@
-import { fetchAllProducts } from "@/app/services/products/fetchProducts";
-import { handleUnauthorizedError } from "@/app/lib/handleUnauthorizedError";
 import Products from "./components/Products";
 import { Suspense } from "react";
 import ProductsLoadUi from "./components/ProductsLoadUi";
+import { handleUnauthorizedError } from "@/app/lib/handleUnauthorizedError";
+import { fetchAllProducts } from "@/app/services/products";
 export const dynamic = "force-dynamic";
 
 export default async function PageProducts() {
