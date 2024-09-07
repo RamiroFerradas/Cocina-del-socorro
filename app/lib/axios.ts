@@ -2,7 +2,6 @@
 
 import axios from "axios";
 import { cookies } from "next/headers";
-import { handleUnauthorizedError } from "./handleUnauthorizedError";
 
 const baseURL = process.env.NEXT_PUBLIC_BASE_API_URL;
 

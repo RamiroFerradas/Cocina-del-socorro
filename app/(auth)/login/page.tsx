@@ -36,7 +36,7 @@ const Login = () => {
         router.replace(searchparams || "/home");
       }
     } catch (err: any) {
-      setError(err.message || "Usuario o contraseña incorrectos.");
+      setError("Usuario o contraseña incorrectos.");
     }
 
     setIsLoading(false);
