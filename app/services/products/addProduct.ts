@@ -5,9 +5,8 @@ import api from "@/app/lib/axios";
 
 const addProduct = async (data: Product) => {
   try {
-    // Envía la solicitud POST directamente con Axios
     const response = await api.post(`/products`, data);
-    revalidatePath("/products");
+    if (response) revalidatePath("/products");
   } catch (error: any) {
     console.error("Error adding product:", error.response.data.detail);
   }

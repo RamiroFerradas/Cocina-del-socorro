@@ -50,8 +50,8 @@ const Products = ({ products }: Props) => {
         >
           {/* Aquí se renderizan los productos filtrados */}
           <>
-            {filteredProducts.map((product: Product) => (
-              <ProductCard key={product.id} product={product} />
+            {filteredProducts.map((product: Product, index) => (
+              <ProductCard key={index} product={product} />
             ))}
           </>
         </Suspense>
