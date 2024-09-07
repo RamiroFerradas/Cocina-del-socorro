@@ -1,12 +1,9 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Product } from "@/app/models/Product";
 import ProductCard from "./ProductCard";
 import { Header } from "@/app/components";
-import { Suspense } from "react";
-import ProductCardSkeleton from "./ProductCardSkeleton";
 import ProductModal from "./ProductModal";
-import api from "@/app/lib/axios";
 import addProduct from "@/app/services/products/addProduct";
 
 type Props = { products: Product[] };
@@ -33,13 +30,19 @@ const Products = ({ products }: Props) => {
       console.error("Error adding product:", error);
     }
   };
+  const [isClient, setIsClient] = useState(false);
 
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
   return (
     <section>
-      <Header
-        filterFunction={handleFilter}
-        onAdd={() => setIsModalOpen(true)}
-      />
+      {isClient ? (
+        <Header
+          filterFunction={handleFilter}
+          onAdd={() => setIsModalOpen(true)}
+        />
+      ) : null}
 
       <div className="container mx-auto py-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-4">
         {filteredProducts.map((product: Product, index) => (
