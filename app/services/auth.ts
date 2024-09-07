@@ -1,19 +1,23 @@
 "use server";
-import axios from "axios";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_API_URL;
+import api from "../lib/axios";
+
 export const loginUser = async (username: string, password: string) => {
   try {
-    const formData = new FormData();
-    formData.append("username", username);
-    formData.append("password", password);
-    const response = await axios.post(BASE_URL + "auth/token", formData, {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
+    const params = new URLSearchParams({
+      grant_type: "password",
+      username,
+      password,
+      scope: "",
+      client_id: "string",
+      client_secret: "string",
     });
+
+    const response = await api.post("auth/token", params);
+
     const { access_token } = response.data;
+
     cookies().set({
       name: "access_token",
       value: access_token,
@@ -23,8 +27,12 @@ export const loginUser = async (username: string, password: string) => {
     });
 
     return access_token;
-  } catch (error) {
-    throw new Error("Usuario o contraseña incorrectos.");
+  } catch (error: any) {
+    throw new Error(
+      error.response.data.detail.includes("Could not validate user")
+        ? "Usuario o contraseña incorrectos."
+        : error.response.data.detail
+    );
   }
 };
 
