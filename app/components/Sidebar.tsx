@@ -1,5 +1,5 @@
 "use client";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { FiLogOut } from "react-icons/fi";
 import {
   salesMenu,
@@ -9,9 +9,11 @@ import {
   suppliersMenu,
 } from "../menus";
 import { homeMenu } from "../menus/homeMenu";
+import { logoutUser } from "../services/auth";
 
 export function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
 
   const getMenuItems = () => {
     if (pathname.startsWith("/sales")) {
@@ -30,6 +32,9 @@ export function Sidebar() {
       return [];
     }
   };
+
+  if (pathname.startsWith("/login")) return;
+
   const menuItems = getMenuItems();
 
   return (
@@ -52,13 +57,16 @@ export function Sidebar() {
       </nav>
 
       <div className="flex items-center justify-center p-4 border-t">
-        <a
-          href="/logout"
+        <button
           className="flex items-center text-gray-700 hover:text-red-600 transition-colors duration-200"
+          onClick={() => {
+            logoutUser();
+            router.replace("/login");
+          }}
         >
           <FiLogOut className="h-5 w-5 mr-2" />
           <span className="text-sm font-medium">Salir</span>
-        </a>
+        </button>
       </div>
     </div>
   );

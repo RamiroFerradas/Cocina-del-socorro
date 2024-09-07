@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "@/app/globals.css";
-import { Header, Sidebar } from "./components";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="md:hidden flex items-center justify-center h-screen bg-red-100">
+        <div className="md:hidden flex items-center justify-center h-screen bg-red-100 w-screen">
           <div className="text-center">
             <h2 className="text-xl font-bold text-red-600">
               Dispositivo No Compatible
@@ -34,13 +33,7 @@ export default function RootLayout({
             </p>
           </div>
         </div>
-        <div className="hidden md:flex bg-gray-100 w-screen min-h-screen ">
-          <Sidebar />
-          <div className="w-[calc(100vw-16rem)]">
-            <Header />
-            <div className="p-4 ">{children}</div>
-          </div>
-        </div>
+        <div className="hidden md:flex bg-gray-100">{children}</div>
       </body>
     </html>
   );

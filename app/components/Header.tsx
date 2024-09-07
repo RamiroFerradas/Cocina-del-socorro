@@ -3,6 +3,7 @@ import { usePathname } from "next/navigation";
 
 export function Header() {
   const pathname = usePathname();
+  if (pathname.startsWith("/login")) return;
 
   // Mapa de traducciones para las rutas principales
   type RouteKeys = "sales" | "products" | "branches" | "staff" | "suppliers";
