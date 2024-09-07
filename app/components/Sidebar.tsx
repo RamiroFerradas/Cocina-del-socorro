@@ -59,9 +59,8 @@ export function Sidebar() {
       <div className="flex items-center justify-center p-4 border-t">
         <button
           className="flex items-center text-gray-700 hover:text-red-600 transition-colors duration-200"
-          onClick={() => {
-            logoutUser();
-            router.replace("/login");
+          onClick={async () => {
+            await logoutUser();
           }}
         >
           <FiLogOut className="h-5 w-5 mr-2" />

@@ -67,7 +67,7 @@ const Login = () => {
 
           <div>
             <label className="block text-gray-700">Password</label>
-            <div className="relative">
+            <div className="relative max-h-11">
               <input
                 {...register("password", {
                   required: "Password is required",
@@ -78,7 +78,7 @@ const Login = () => {
               />
               <IconButton
                 onClick={togglePasswordVisibility}
-                className="absolute right-2 top-1.5"
+                className="!absolute !right-2 !top-1.5"
               >
                 {showPassword ? <VisibilityOff /> : <Visibility />}
               </IconButton>
