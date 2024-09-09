@@ -14,7 +14,7 @@ export default function ProductCard({ product: productApi }: ProductCardProps) {
 
   useEffect(() => {
     setProduct(productApi);
-    setImageError(false); // Reset error state when product changes
+    setImageError(false);
   }, [productApi]);
 
   return (

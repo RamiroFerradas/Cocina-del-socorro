@@ -57,7 +57,7 @@ const Login = () => {
               {...register("username", { required: "Username is required" })}
               className="w-full p-2 border border-gray-300 rounded mt-1"
               type="text"
-              placeholder="Username"
+              placeholder="Usuario"
             />
             {errors.username && (
               <p className="text-red-500 text-sm">{errors.username.message}</p>
@@ -73,7 +73,7 @@ const Login = () => {
                 })}
                 className="w-full p-2 border border-gray-300 rounded mt-1"
                 type={showPassword ? "text" : "password"}
-                placeholder="Password"
+                placeholder="Contraseña"
               />
               <IconButton
                 onClick={togglePasswordVisibility}
