@@ -4,9 +4,10 @@ import ProductCard from "./ProductCard";
 import { Header, Option, SearchBar } from "@/app/components";
 import ProductModal from "./ProductModal";
 import {
+  deleteProduct,
   fetchProductsByBrand,
   fetchProductsByCategory,
-  addProduct,
+  saveProduct,
 } from "@/app/services/products";
 import AddIcon from "@mui/icons-material/Add";
 import { Select } from "@/app/components";
@@ -21,6 +22,7 @@ const Products = ({ products }: Props) => {
   const [categories, setCategories] = useState<Option[]>([]);
   const [selectedBrand, setSelectedBrand] = useState<string>("");
   const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
 
   useEffect(() => {
     const uniqueBrands = Array.from(
@@ -75,19 +77,18 @@ const Products = ({ products }: Props) => {
     setFilteredProducts(filtered);
   };
 
-  const handleFilter = (searchTerm: string) => {
-    const filtered = products.filter((product) =>
-      product.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredProducts(filtered);
-  };
-
   const handleSubmit = async (data: Product) => {
     try {
-      await addProduct(data);
+      await saveProduct({ data, isEdit: !!editingProduct });
+      setIsModalOpen(false);
     } catch (error) {
-      console.error("Error adding product:", error);
+      console.error("Error processing product:", error);
     }
+  };
+
+  const handleEdit = (product: Product) => {
+    setEditingProduct(product);
+    setIsModalOpen(true);
   };
 
   const [isClient, setIsClient] = useState(false);
@@ -95,6 +96,10 @@ const Products = ({ products }: Props) => {
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  async function handleDelete(id: number) {
+    await deleteProduct(id);
+  }
 
   return (
     <section>
@@ -123,7 +128,10 @@ const Products = ({ products }: Props) => {
             />
           </div>
           <button
-            onClick={() => setIsModalOpen(true)}
+            onClick={() => {
+              setEditingProduct(null);
+              setIsModalOpen(true);
+            }}
             className="flex items-center justify-center p-2 my-2 text-gray-700 hover:bg-gray-100 rounded-md transition-colors duration-200 bg-white border border-gray-300"
           >
             <AddIcon className="size-4 mr-2 text-gray-600" />
@@ -134,13 +142,19 @@ const Products = ({ products }: Props) => {
 
       <div className="container mx-auto py-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-4">
         {filteredProducts.map((product: Product, index) => (
-          <ProductCard key={index} product={product} />
+          <ProductCard
+            key={index}
+            product={product}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
         ))}
       </div>
       <ProductModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onAddSuccess={handleSubmit}
+        productToEdit={editingProduct}
       />
     </section>
   );

@@ -6,13 +6,13 @@ interface Field {
   label: string;
   type: string;
   required?: boolean;
-  defaultValue?: any;
+  defaultValue?: any; // Valor predeterminado opcional para cada campo
 }
 
 interface ReusableFormProps<T extends FieldValues> {
   fields: Field[];
   onSubmit: SubmitHandler<T>;
-  defaultValues?: T;
+  defaultValues?: T; // Valores iniciales opcionales
   submitButtonText: string;
   onClose: () => void;
 }
@@ -20,10 +20,11 @@ interface ReusableFormProps<T extends FieldValues> {
 export function ReusableForm<T extends FieldValues>({
   fields,
   onSubmit,
-  defaultValues = {} as T,
+  defaultValues = {} as T, // Valores iniciales para edición
   submitButtonText,
   onClose,
 }: ReusableFormProps<T>) {
+  // Configurar el formulario con valores predeterminados si existen
   const {
     register,
     handleSubmit,
@@ -52,12 +53,20 @@ export function ReusableForm<T extends FieldValues>({
           >
             {field.label}
           </label>
-          <input
-            id={field.name}
-            type={field.type}
-            {...register(field.name as any, { required: field.required })}
-            className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-          />
+          {field.type === "textarea" ? (
+            <textarea
+              id={field.name}
+              {...register(field.name as any, { required: field.required })}
+              className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+            />
+          ) : (
+            <input
+              id={field.name}
+              type={field.type}
+              {...register(field.name as any, { required: field.required })}
+              className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+            />
+          )}
           {errors[field.name] && (
             <p className="text-red-500 text-sm">
               {(errors[field.name]?.message as string) ||
@@ -68,14 +77,15 @@ export function ReusableForm<T extends FieldValues>({
       ))}
       <div className="col-span-full flex justify-between mt-4">
         <button
+          type="button"
           onClick={onClose}
-          className="bg-gray-500 text-white px-4 py-2 rounded mt-4"
+          className="bg-gray-500 text-white px-4 py-2 rounded"
         >
           Cancelar
         </button>
         <button
           type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
+          className="bg-blue-500 text-white px-4 py-2 rounded"
         >
           {submitButtonText}
         </button>

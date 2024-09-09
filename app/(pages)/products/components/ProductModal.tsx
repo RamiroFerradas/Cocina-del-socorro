@@ -1,18 +1,19 @@
 "use client";
 import { Product } from "@/app/models/Product";
 import { ReusableForm } from "@/app/components";
-import api from "@/app/lib/axios";
 
 interface ProductModalProps {
   isOpen: boolean;
   onClose: () => void;
   onAddSuccess: (data: Product) => Promise<void>;
+  productToEdit?: Product | null; // Producto opcional para editar
 }
 
 const ProductModal: React.FC<ProductModalProps> = ({
   isOpen,
   onClose,
   onAddSuccess,
+  productToEdit,
 }) => {
   const productFields = [
     { name: "name", label: "Nombre", type: "text", required: true },
@@ -34,12 +35,15 @@ const ProductModal: React.FC<ProductModalProps> = ({
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75">
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-lg font-bold mb-4">Agregar Producto</h2>
+        <h2 className="text-lg font-bold mb-4">
+          {productToEdit ? "Editar Producto" : "Agregar Producto"}
+        </h2>
         <ReusableForm<Product>
           fields={productFields}
           onSubmit={onAddSuccess}
+          defaultValues={productToEdit!}
+          submitButtonText="Actualizar Producto"
           onClose={onClose}
-          submitButtonText="Agregar"
         />
       </div>
     </div>
