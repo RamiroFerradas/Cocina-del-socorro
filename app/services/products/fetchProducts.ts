@@ -1,6 +1,5 @@
 "use server";
 import api from "@/app/lib/axios";
-import { handleUnauthorizedError } from "@/app/lib/handleUnauthorizedError";
 import { Product } from "@/app/models/Product";
 
 function delay(ms: number) {
@@ -10,10 +9,10 @@ function delay(ms: number) {
 export async function fetchAllProducts(): Promise<Product[]> {
   try {
     const response = await api("/products");
-    // await delay(11110);
+
     return response.data;
   } catch (error: any) {
-    console.error(error.message);
+    console.error(error);
 
     throw error;
   }

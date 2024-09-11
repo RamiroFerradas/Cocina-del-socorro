@@ -1,11 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
-import { Header, Option, SearchBar } from "@/app/components";
-import ProductModal from "./ProductModal";
+import { Header, Option, ReusableForm, SearchBar } from "@/app/components";
+import { Modal } from "@/app/components/Modal";
 import {
   deleteProduct,
-  fetchAllProducts,
   fetchProductsByBrand,
   fetchProductsByCategory,
   saveProduct,
@@ -13,7 +12,7 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import { Select } from "@/app/components";
 import { Product } from "@/app/models/Product";
-import { usePathname } from "next/navigation";
+import ConfirmationModal from "@/app/components/ConfirmationModal";
 
 type Props = { products: Product[] };
 
@@ -25,8 +24,10 @@ const Products = ({ products }: Props) => {
   const [selectedBrand, setSelectedBrand] = useState<string>("");
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
-  const pathname = usePathname();
-
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+  const [productIdToDelete, setProductIdToDelete] = useState<number | null>(
+    null
+  );
   useEffect(() => {
     setFilteredProducts(products);
   }, [products]);
@@ -86,7 +87,7 @@ const Products = ({ products }: Props) => {
 
   const handleSubmit = async (data: Product) => {
     try {
-      await saveProduct({ data, pathname, isEdit: !!editingProduct });
+      await saveProduct({ data, isEdit: !!editingProduct });
       setIsModalOpen(false);
     } catch (error) {
       console.error("Error processing product:", error);
@@ -104,9 +105,17 @@ const Products = ({ products }: Props) => {
     setIsClient(true);
   }, []);
 
-  async function handleDelete(id: number) {
-    await deleteProduct(id);
-  }
+  const handleDeleteClick = (id: number) => {
+    setProductIdToDelete(id);
+    setIsConfirmationModalOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (productIdToDelete !== null) {
+      await deleteProduct(productIdToDelete);
+      setIsConfirmationModalOpen(false);
+    }
+  };
 
   return (
     <section>
@@ -156,18 +165,45 @@ const Products = ({ products }: Props) => {
               key={index}
               product={product}
               onEdit={handleEdit}
-              onDelete={handleDelete}
+              onDelete={handleDeleteClick}
             />
           ))}
       </div>
-      <ProductModal
+      <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        onAddSuccess={handleSubmit}
-        productToEdit={editingProduct}
+        title={editingProduct ? "Editar Producto" : "Agregar Producto"}
+      >
+        <ReusableForm<Product>
+          fields={productFields}
+          onSubmit={handleSubmit}
+          defaultValues={editingProduct!}
+          onClose={() => setIsModalOpen(false)}
+        />
+      </Modal>
+      <ConfirmationModal
+        isOpen={isConfirmationModalOpen}
+        onClose={() => setIsConfirmationModalOpen(false)}
+        onConfirm={confirmDelete}
+        title="Confirmar Eliminación"
+        message="¿Estás seguro de que deseas eliminar este producto? Esta acción no se puede deshacer."
       />
     </section>
   );
 };
 
 export default Products;
+const productFields = [
+  { name: "name", label: "Nombre", type: "text", required: true },
+  { name: "brand", label: "Marca", type: "text", required: true },
+  { name: "category", label: "Categoría", type: "text", required: true },
+  {
+    name: "description",
+    label: "Descripción",
+    type: "textarea",
+    required: true,
+  },
+  { name: "image_url", label: "URL de Imagen", type: "text", required: true },
+  { name: "price", label: "Precio", type: "number", required: true },
+  { name: "sku", label: "SKU", type: "text", required: true },
+];

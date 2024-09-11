@@ -6,12 +6,8 @@ import api from "../lib/axios";
 export const loginUser = async (username: string, password: string) => {
   try {
     const params = new URLSearchParams({
-      grant_type: "password",
       username,
       password,
-      scope: "",
-      client_id: "string",
-      client_secret: "string",
     });
 
     const response = await api.post("auth/token", params);
