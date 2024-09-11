@@ -10,9 +10,9 @@ export default async function PageProducts() {
 
   return (
     <Suspense fallback={<ProductsLoadUi />}>
-      {productsPromise
-        .then((products) => <Products products={products} />)
-        .catch((err) => handleUnauthorizedError(err))}
+      {productsPromise.then((products) => (
+        <Products products={products} />
+      ))}
     </Suspense>
   );
 }
