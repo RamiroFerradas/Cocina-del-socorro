@@ -5,16 +5,16 @@ import api from "@/app/lib/axios";
 
 type ProductAction = {
   data: Product;
-  isEdit?: boolean; // Prop para determinar si es una edición
+  isEdit?: boolean;
 };
 
 export const saveProduct = async ({ data, isEdit = false }: ProductAction) => {
   try {
     let response;
     if (isEdit) {
-      response = await api.put(`/products/${data.id}`, data); // Editar producto
+      response = await api.put(`/products/${data.id}`, data);
     } else {
-      response = await api.post(`/products`, data); // Agregar nuevo producto
+      response = await api.post(`/products`, data);
     }
     if (response) revalidatePath("/products");
   } catch (error: any) {

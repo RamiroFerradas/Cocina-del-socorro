@@ -40,8 +40,8 @@ export default function ProductCard({
 
   return (
     product && (
-      <Card className="w-full min-w-72 max-w-sm bg-white shadow-md rounded-xl overflow-hidden h-64 flex justify-between flex-col relative">
-        <div className="min-h-32 rounded-xl overflow-hidden shadow-sm">
+      <Card className="w-full max-w-40 max-w- bg-white shadow-md !rounded-xl min-h-44 flex justify-beween flex-col relative overflow-hidden">
+        <div className="h-28 rounded-b-xl overflow-hidden shadow-sm">
           <Image
             // src={imageError ? imgError : productApi.imageUrl}
             src={imgError}
@@ -50,18 +50,14 @@ export default function ProductCard({
             className="object-cover w-full h-full"
           />
         </div>
-        <CardContent>
-          <Typography variant="h6" component="div">
-            {product.name}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {product.brand}
-          </Typography>
-          <Typography variant="h6" component="div" className="mt-4">
-            ${product.price}
-          </Typography>
+        <CardContent className="flex-grow flex flex-col justify-between p-2">
+          <p className="flex flex-col">
+            <span className="capitalize text-sm">{product.name}</span>
+            <span className="capitalize text-xs">{product.brand}</span>
+          </p>
+          <span className="mt-4 text-xs">${product.price}</span>
         </CardContent>
-        <div className="absolute top-2 right-2 flex flex-col items-center justify-center">
+        <div className="absolute top-0 right-0 flex flex-col items-center justify-center">
           <IconButton onClick={handleEdit}>
             <EditIcon fontSize="small" />
           </IconButton>

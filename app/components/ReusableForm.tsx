@@ -6,32 +6,38 @@ interface Field {
   label: string;
   type: string;
   required?: boolean;
-  defaultValue?: any; // Valor predeterminado opcional para cada campo
+  defaultValue?: any;
 }
 
 interface ReusableFormProps<T extends FieldValues> {
   fields: Field[];
   onSubmit: SubmitHandler<T>;
-  defaultValues?: T; // Valores iniciales opcionales
-  submitButtonText: string;
+  defaultValues?: T;
+  submitButtonText?: string;
   onClose: () => void;
 }
 
 export function ReusableForm<T extends FieldValues>({
   fields,
   onSubmit,
-  defaultValues = {} as T, // Valores iniciales para edición
-  submitButtonText,
+  defaultValues = {} as T,
+  submitButtonText = "Guardar",
   onClose,
 }: ReusableFormProps<T>) {
-  // Configurar el formulario con valores predeterminados si existen
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<T>({
     defaultValues,
   } as any);
+
+  const handleNumberInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, id } = event.target;
+    const formattedValue = value.replace(",", "."); // Reemplazar comas por puntos
+    setValue(id as any, formattedValue as any); // Actualizar el valor del input
+  };
 
   const maxRowsPerColumn = 5;
   const numColumns = Math.ceil(fields.length / maxRowsPerColumn);
@@ -62,9 +68,10 @@ export function ReusableForm<T extends FieldValues>({
           ) : (
             <input
               id={field.name}
-              type={field.type}
+              type={field.type === "number" ? "text" : field.type} // Usar "text" para controlar el valor
               {...register(field.name as any, { required: field.required })}
               className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+              onChange={field.type === "number" ? handleNumberInput : undefined} // Aplicar la función solo en inputs numéricos
             />
           )}
           {errors[field.name] && (

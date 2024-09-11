@@ -1,8 +1,8 @@
 "use server";
-import api from "@/app/lib/axios"; // Si ya tienes axios configurado
+import api from "@/app/lib/axios";
 import { revalidatePath } from "next/cache";
 
-export const deleteProduct = async (id: number) => {
+export async function deleteProduct(id: number) {
   try {
     const response = await api.delete(`/products/${id}`);
     revalidatePath("/products");
@@ -10,4 +10,4 @@ export const deleteProduct = async (id: number) => {
   } catch (error: any) {
     throw new Error(error.response?.data.detail || "Failed to delete product");
   }
-};
+}

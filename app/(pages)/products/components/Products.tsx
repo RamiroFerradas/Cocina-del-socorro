@@ -80,6 +80,7 @@ const Products = ({ products }: Props) => {
   const handleSubmit = async (data: Product) => {
     try {
       await saveProduct({ data, isEdit: !!editingProduct });
+      setFilteredProducts(products);
       setIsModalOpen(false);
     } catch (error) {
       console.error("Error processing product:", error);
@@ -103,52 +104,55 @@ const Products = ({ products }: Props) => {
 
   return (
     <section>
-      {isClient ? (
-        <Header>
-          <SearchBar
-            items={products}
-            showPreview={true}
-            placeholder="Buscar productos..."
-            setFilter={setFilteredProducts}
-          />
-          <div className="flex gap-2">
-            <Select
-              options={brands}
-              selectedOption={selectedBrand}
-              onChange={handleBrandChange}
-              placeholder="Marca"
-              className="w-full max-w-xs"
+      <Header>
+        {isClient && (
+          <>
+            <SearchBar
+              items={products}
+              showPreview={true}
+              placeholder="Buscar productos..."
+              setFilter={setFilteredProducts}
             />
-            <Select
-              options={categories}
-              selectedOption={selectedCategory}
-              onChange={handleCategoryChange}
-              placeholder="Categoría"
-              className="w-full max-w-xs"
-            />
-          </div>
-          <button
-            onClick={() => {
-              setEditingProduct(null);
-              setIsModalOpen(true);
-            }}
-            className="flex items-center justify-center p-2 my-2 text-gray-700 hover:bg-gray-100 rounded-md transition-colors duration-200 bg-white border border-gray-300"
-          >
-            <AddIcon className="size-4 mr-2 text-gray-600" />
-            <span className="text-sm font-medium">Agregar</span>
-          </button>
-        </Header>
-      ) : null}
+            <div className="flex gap-2">
+              <Select
+                options={brands}
+                selectedOption={selectedBrand}
+                onChange={handleBrandChange}
+                placeholder="Marca"
+                className="w-full max-w-xs"
+              />
+              <Select
+                options={categories}
+                selectedOption={selectedCategory}
+                onChange={handleCategoryChange}
+                placeholder="Categoría"
+                className="w-full max-w-xs"
+              />
+            </div>
+            <button
+              onClick={() => {
+                setEditingProduct(null);
+                setIsModalOpen(true);
+              }}
+              className="flex items-center justify-center p-2 my-2 text-gray-700 hover:bg-gray-100 rounded-md transition-colors duration-200 bg-white border border-gray-300"
+            >
+              <AddIcon className="size-4 mr-2 text-gray-600" />
+              <span className="text-sm font-medium">Agregar</span>
+            </button>
+          </>
+        )}
+      </Header>
 
-      <div className="container mx-auto py-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-4">
-        {filteredProducts.map((product: Product, index) => (
-          <ProductCard
-            key={index}
-            product={product}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-          />
-        ))}
+      <div className="container mx-auto py-8 flex flex-wrap gap-4 p-4">
+        {isClient &&
+          filteredProducts.map((product: Product, index) => (
+            <ProductCard
+              key={index}
+              product={product}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+            />
+          ))}
       </div>
       <ProductModal
         isOpen={isModalOpen}

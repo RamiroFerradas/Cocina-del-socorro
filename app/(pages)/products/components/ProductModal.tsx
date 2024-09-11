@@ -42,7 +42,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
           fields={productFields}
           onSubmit={onAddSuccess}
           defaultValues={productToEdit!}
-          submitButtonText="Actualizar Producto"
+          // submitButtonText="Actualizar Producto"
           onClose={onClose}
         />
       </div>
