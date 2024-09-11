@@ -5,6 +5,7 @@ import { Header, Option, SearchBar } from "@/app/components";
 import ProductModal from "./ProductModal";
 import {
   deleteProduct,
+  fetchAllProducts,
   fetchProductsByBrand,
   fetchProductsByCategory,
   saveProduct,
@@ -12,17 +13,23 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import { Select } from "@/app/components";
 import { Product } from "@/app/models/Product";
+import { usePathname } from "next/navigation";
 
 type Props = { products: Product[] };
 
 const Products = ({ products }: Props) => {
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [brands, setBrands] = useState<Option[]>([]);
   const [categories, setCategories] = useState<Option[]>([]);
   const [selectedBrand, setSelectedBrand] = useState<string>("");
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const pathname = usePathname();
+
+  useEffect(() => {
+    setFilteredProducts(products);
+  }, [products]);
 
   useEffect(() => {
     const uniqueBrands = Array.from(
@@ -79,8 +86,7 @@ const Products = ({ products }: Props) => {
 
   const handleSubmit = async (data: Product) => {
     try {
-      await saveProduct({ data, isEdit: !!editingProduct });
-      setFilteredProducts(products);
+      await saveProduct({ data, pathname, isEdit: !!editingProduct });
       setIsModalOpen(false);
     } catch (error) {
       console.error("Error processing product:", error);

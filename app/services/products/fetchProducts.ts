@@ -14,7 +14,6 @@ export async function fetchAllProducts(): Promise<Product[]> {
     return response.data;
   } catch (error: any) {
     console.error(error.message);
-    await handleUnauthorizedError(error);
 
     throw error;
   }

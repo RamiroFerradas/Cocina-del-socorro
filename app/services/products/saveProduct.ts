@@ -6,9 +6,14 @@ import api from "@/app/lib/axios";
 type ProductAction = {
   data: Product;
   isEdit?: boolean;
+  pathname?: string;
 };
 
-export const saveProduct = async ({ data, isEdit = false }: ProductAction) => {
+export async function saveProduct({
+  data,
+  pathname = "/products",
+  isEdit = false,
+}: ProductAction) {
   try {
     let response;
     if (isEdit) {
@@ -16,11 +21,13 @@ export const saveProduct = async ({ data, isEdit = false }: ProductAction) => {
     } else {
       response = await api.post(`/products`, data);
     }
-    if (response) revalidatePath("/products");
+    revalidatePath(pathname);
+    return response.data;
   } catch (error: any) {
     console.error(
       "Error saving product:",
       error.response?.data?.detail || error.message
     );
+    throw error;
   }
-};
+}
