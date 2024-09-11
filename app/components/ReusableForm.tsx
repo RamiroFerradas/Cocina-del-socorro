@@ -1,5 +1,6 @@
 "use client";
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
+import { Button } from "./Button";
 
 interface Field {
   name: string;
@@ -15,6 +16,7 @@ interface ReusableFormProps<T extends FieldValues> {
   defaultValues?: T;
   submitButtonText?: string;
   onClose: () => void;
+  isLoading?: boolean;
 }
 
 export function ReusableForm<T extends FieldValues>({
@@ -23,6 +25,7 @@ export function ReusableForm<T extends FieldValues>({
   defaultValues = {} as T,
   submitButtonText = "Guardar",
   onClose,
+  isLoading,
 }: ReusableFormProps<T>) {
   const {
     register,
@@ -35,8 +38,8 @@ export function ReusableForm<T extends FieldValues>({
 
   const handleNumberInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value, id } = event.target;
-    const formattedValue = value.replace(",", "."); // Reemplazar comas por puntos
-    setValue(id as any, formattedValue as any); // Actualizar el valor del input
+    const formattedValue = value.replace(",", ".");
+    setValue(id as any, formattedValue as any);
   };
 
   const maxRowsPerColumn = 5;
@@ -83,19 +86,17 @@ export function ReusableForm<T extends FieldValues>({
         </div>
       ))}
       <div className="col-span-full flex justify-between mt-4">
-        <button
+        <Button
           type="button"
           onClick={onClose}
           className="bg-gray-500 text-white px-4 py-2 rounded"
         >
           Cancelar
-        </button>
-        <button
-          type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded"
-        >
+        </Button>
+
+        <Button type="submit" isLoading={isLoading}>
           {submitButtonText}
-        </button>
+        </Button>
       </div>
     </form>
   );

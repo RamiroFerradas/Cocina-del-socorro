@@ -1,3 +1,4 @@
+export * from './Button';
 export * from './ConfirmationModal';
 export * from './Header';
 export * from './Modal';

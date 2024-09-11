@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal } from "@/app/components";
+import { Button, Modal } from "@/app/components";
 
 interface ConfirmationModalProps {
   isOpen: boolean;
@@ -7,6 +7,7 @@ interface ConfirmationModalProps {
   onConfirm: () => void;
   title: string;
   message: string;
+  isLoading?: boolean;
 }
 
 const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
@@ -15,24 +16,26 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   onConfirm,
   title,
   message,
+  isLoading,
 }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={title}>
-      <div className="py-4">
+      <div>
         <p className="mb-4">{message}</p>
         <div className="flex justify-end gap-2">
-          <button
+          <Button
             onClick={onConfirm}
-            className="px-4 py-2 bg-red-500 text-white rounded-md"
+            className=" bg-red-500 text-white rounded-md"
+            isLoading={isLoading}
           >
             Confirmar
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={onClose}
-            className="px-4 py-2 bg-gray-300 rounded-md"
+            className="px-4 py-2 bg-gray-300 !text-black rounded-md"
           >
             Cancelar
-          </button>
+          </Button>
         </div>
       </div>
     </Modal>

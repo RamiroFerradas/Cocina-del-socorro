@@ -28,6 +28,7 @@ const Products = ({ products }: Props) => {
   const [productIdToDelete, setProductIdToDelete] = useState<number | null>(
     null
   );
+  const [isLoadingButton, setIsLoadingButton] = useState(false);
   useEffect(() => {
     setFilteredProducts(products);
   }, [products]);
@@ -86,12 +87,10 @@ const Products = ({ products }: Props) => {
   };
 
   const handleSubmit = async (data: Product) => {
-    try {
-      await saveProduct({ data, isEdit: !!editingProduct });
-      setIsModalOpen(false);
-    } catch (error) {
-      console.error("Error processing product:", error);
-    }
+    setIsLoadingButton(true);
+    await saveProduct({ data, isEdit: !!editingProduct });
+    setIsModalOpen(false);
+    setIsLoadingButton(false);
   };
 
   const handleEdit = (product: Product) => {
@@ -112,7 +111,9 @@ const Products = ({ products }: Props) => {
 
   const confirmDelete = async () => {
     if (productIdToDelete !== null) {
+      setIsLoadingButton(true);
       await deleteProduct(productIdToDelete);
+      setIsLoadingButton(true);
       setIsConfirmationModalOpen(false);
     }
   };
@@ -179,6 +180,7 @@ const Products = ({ products }: Props) => {
           onSubmit={handleSubmit}
           defaultValues={editingProduct!}
           onClose={() => setIsModalOpen(false)}
+          isLoading={isLoadingButton}
         />
       </Modal>
       <ConfirmationModal
@@ -187,6 +189,7 @@ const Products = ({ products }: Props) => {
         onConfirm={confirmDelete}
         title="Confirmar Eliminación"
         message="¿Estás seguro de que deseas eliminar este producto? Esta acción no se puede deshacer."
+        isLoading={isLoadingButton}
       />
     </section>
   );

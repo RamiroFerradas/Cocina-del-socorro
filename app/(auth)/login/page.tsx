@@ -5,6 +5,7 @@ import { loginUser, deleteUserCookie } from "@/app/services";
 import { useRouter, useSearchParams } from "next/navigation";
 import { IconButton, CircularProgress } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { Button } from "@/app/components";
 
 type LoginFormInputs = {
   username: string;
@@ -88,17 +89,9 @@ const Login = () => {
           </div>
           {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
 
-          <button
-            type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition flex justify-center items-center"
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <CircularProgress size={24} color="inherit" />
-            ) : (
-              "Login"
-            )}
-          </button>
+          <Button type="submit" isLoading={isLoading} className="w-full">
+            Ingresar
+          </Button>
         </form>
       </div>
     </div>
