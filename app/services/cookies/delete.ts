@@ -7,7 +7,11 @@ export async function deleteCookie(data: string) {
 }
 
 export async function deleteUserCookie() {
-  "use server";
-
-  cookies().delete("access_token");
+  ("use server");
+  cookies().delete({
+    name: "access_token",
+    httpOnly: true,
+    path: "/",
+    maxAge: 0,
+  });
 }

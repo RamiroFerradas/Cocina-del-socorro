@@ -2,6 +2,8 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import api from "../lib/axios";
+import { deleteUserCookie } from "./cookies/delete";
+import nookies from "nookies";
 
 export const loginUser = async (username: string, password: string) => {
   try {
@@ -13,6 +15,10 @@ export const loginUser = async (username: string, password: string) => {
     const response = await api.post("auth/token", params);
 
     const { access_token } = response.data;
+    nookies.set(null, "fromClient", "value", {
+      maxAge: 30 * 24 * 60 * 60,
+      path: "/",
+    });
 
     cookies().set({
       name: "access_token",
@@ -21,7 +27,6 @@ export const loginUser = async (username: string, password: string) => {
       path: "/",
       maxAge: 60 * 60 * 12,
     });
-
     return access_token;
   } catch (error: any) {
     throw new Error(
@@ -34,5 +39,7 @@ export const loginUser = async (username: string, password: string) => {
 
 export const logoutUser = async () => {
   "use server";
+
+  await deleteUserCookie();
   redirect("/login");
 };

@@ -1,11 +1,12 @@
 "use client";
 import { useForm } from "react-hook-form";
 import { Suspense, useEffect, useState } from "react";
-import { loginUser, deleteUserCookie } from "@/app/services";
+import { loginUser } from "@/app/services";
 import { useRouter, useSearchParams } from "next/navigation";
 import { IconButton, CircularProgress } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Button } from "@/app/components";
+import { deleteUserCookie } from "@/app/services/cookies/delete";
 
 type LoginFormInputs = {
   username: string;
@@ -29,7 +30,6 @@ const Login = () => {
 
   const onSubmit = async (data: LoginFormInputs) => {
     setIsLoading(true);
-
     try {
       const result = await loginUser(data.username, data.password);
       if (result) {

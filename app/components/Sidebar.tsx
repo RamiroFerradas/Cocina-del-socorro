@@ -7,9 +7,9 @@ import {
   branchesMenu,
   staffMenu,
   suppliersMenu,
-} from "../menus";
-import { homeMenu } from "../menus/homeMenu";
-import { logoutUser } from "../services/auth";
+} from "@/app/menus";
+import { homeMenu } from "@/app/menus/homeMenu";
+import { logoutUser } from "@/app/services/auth";
 
 export function Sidebar() {
   const pathname = usePathname();

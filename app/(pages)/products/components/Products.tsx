@@ -13,6 +13,12 @@ import AddIcon from "@mui/icons-material/Add";
 import { Select } from "@/app/components";
 import { Product } from "@/app/models/Product";
 import ConfirmationModal from "@/app/components/ConfirmationModal";
+import {
+  Toast,
+  toastErrorStyles,
+  toastSuccessStyles,
+} from "@/app/components/Toast";
+import { toast } from "react-toastify";
 
 type Props = { products: Product[] };
 
@@ -87,10 +93,46 @@ const Products = ({ products }: Props) => {
   };
 
   const handleSubmit = async (data: Product) => {
-    setIsLoadingButton(true);
-    await saveProduct({ data, isEdit: !!editingProduct });
-    setIsModalOpen(false);
-    setIsLoadingButton(false);
+    try {
+      setIsLoadingButton(true);
+
+      await saveProduct({ data, isEdit: !!editingProduct });
+
+      toast(
+        <Toast
+          variant="success"
+          title={editingProduct ? "Producto actualizado" : "Producto agregado"}
+          text={
+            editingProduct
+              ? "Producto actualizado exitosamente."
+              : "Producto agregado exitosamente."
+          }
+        />,
+        {
+          hideProgressBar: true,
+          className: toastSuccessStyles,
+        }
+      );
+
+      setIsModalOpen(false);
+    } catch (error: any) {
+      toast(
+        <Toast
+          variant="error"
+          title="Error al guardar el producto"
+          text={
+            error.message ||
+            "Ocurrió un error inesperado al guardar el producto."
+          }
+        />,
+        {
+          hideProgressBar: true,
+          className: toastErrorStyles,
+        }
+      );
+    } finally {
+      setIsLoadingButton(false);
+    }
   };
 
   const handleEdit = (product: Product) => {

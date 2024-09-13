@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 
 export function handleUnauthorizedError(error: AxiosError) {
   if (error.response?.status === 401) {
-    return redirect("/login");
+    redirect("/login");
   } else {
     console.log("Error no autorizado:", error.message);
   }
