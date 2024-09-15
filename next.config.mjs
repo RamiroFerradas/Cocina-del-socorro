@@ -12,6 +12,11 @@ const nextConfig = {
   images: {
     domains: ["example.com", "https://example.com"], // Solo el nombre de dominio, sin "https://"
   },
+  logging: {
+    fetches: {
+      fullUrl: true,
+    },
+  },
 };
 
 export default nextConfig;
