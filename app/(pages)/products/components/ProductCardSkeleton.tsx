@@ -1,6 +1,6 @@
 import { Card, CardContent, Skeleton } from "@mui/material";
 
-export default function ProductCardSkeleton() {
+export function ProductCardSkeleton() {
   return (
     <Card className="w-full max-w-40 bg-white shadow-md !rounded-xl min-h-44 flex justify-beween flex-col relative overflow-hidden">
       <Skeleton variant="rectangular" height={100} />

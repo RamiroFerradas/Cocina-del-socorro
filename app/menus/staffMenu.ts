@@ -8,11 +8,7 @@ import {
 } from "react-icons/fi";
 
 export const staffMenu = [
-  {
-    title: "Home",
-    icon: FiHome,
-    link: "/home",
-  },
+
   {
     title: "Empleados",
     icon: FiUsers,

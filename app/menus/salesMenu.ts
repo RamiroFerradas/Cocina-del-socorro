@@ -8,11 +8,7 @@ import {
 } from "react-icons/fi";
 
 export const salesMenu = [
-  {
-    title: "Home",
-    icon: FiHome,
-    link: "/home",
-  },
+
   {
     title: "Dashboard",
     icon: FiBarChart,

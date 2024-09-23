@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import ProductCard from "./ProductCard";
 import { Header, Option, ReusableForm, SearchBar } from "@/app/components";
 import { Modal } from "@/app/components/Modal";
 import {
@@ -19,10 +18,11 @@ import {
   toastSuccessStyles,
 } from "@/app/components/Toast";
 import { toast } from "react-toastify";
+import { ProductCard } from "./ProductCard";
 
 type Props = { products: Product[] };
 
-const Products = ({ products }: Props) => {
+export const Products = ({ products }: Props) => {
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [brands, setBrands] = useState<Option[]>([]);
@@ -237,7 +237,6 @@ const Products = ({ products }: Props) => {
   );
 };
 
-export default Products;
 const productFields = [
   { name: "name", label: "Nombre", type: "text", required: true },
   { name: "brand", label: "Marca", type: "text", required: true },

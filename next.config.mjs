@@ -9,8 +9,14 @@ const nextConfig = {
       },
     ];
   },
+
   images: {
-    domains: ["example.com", "https://example.com"], // Solo el nombre de dominio, sin "https://"
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "example.com",
+      },
+    ],
   },
   logging: {
     fetches: {

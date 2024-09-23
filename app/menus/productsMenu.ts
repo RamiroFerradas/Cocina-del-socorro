@@ -9,11 +9,6 @@ import {
 
 export const productsMenu = [
   {
-    title: "Home",
-    icon: FiHome,
-    link: "/home",
-  },
-  {
     title: "Inventario",
     icon: FiBox,
     link: "/products/inventory",
@@ -23,19 +18,19 @@ export const productsMenu = [
     icon: FiList,
     link: "/products/categories",
   },
-  {
-    title: "Precios",
-    icon: FiTag,
-    link: "/products/pricing",
-  },
-  {
-    title: "Stock",
-    icon: FiLayers,
-    link: "/products/stock",
-  },
-  {
-    title: "Almacenes",
-    icon: FiArchive,
-    link: "/products/warehouses",
-  },
+  // {
+  //   title: "Precios",
+  //   icon: FiTag,
+  //   link: "/products/pricing",
+  // },
+  // {
+  //   title: "Stock",
+  //   icon: FiLayers,
+  //   link: "/products/stock",
+  // },
+  // {
+  //   title: "Almacenes",
+  //   icon: FiArchive,
+  //   link: "/products/warehouses",
+  // },
 ];

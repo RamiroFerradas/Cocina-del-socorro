@@ -4,9 +4,15 @@ import {
   FiMapPin,
   FiUsers,
   FiTruck,
+  FiHome,
 } from "react-icons/fi";
 
 export const homeMenu = [
+  {
+    title: "Home",
+    icon: FiHome,
+    link: "/home",
+  },
   {
     title: "Ventas",
     icon: FiDollarSign,

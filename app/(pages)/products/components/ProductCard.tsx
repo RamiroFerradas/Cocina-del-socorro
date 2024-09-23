@@ -13,7 +13,7 @@ type ProductCardProps = {
   onDelete: (id: number) => void;
 };
 
-export default function ProductCard({
+export function ProductCard({
   product: productApi,
   onEdit,
   onDelete,

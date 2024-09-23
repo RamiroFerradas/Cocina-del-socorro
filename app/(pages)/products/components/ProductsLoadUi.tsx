@@ -1,5 +1,5 @@
 import { Header } from "@/app/components/Header";
-import ProductCardSkeleton from "./ProductCardSkeleton";
+import { ProductCardSkeleton } from "./ProductCardSkeleton";
 
 type Props = {};
 export const ProductsLoadUi = (props: Props) => {

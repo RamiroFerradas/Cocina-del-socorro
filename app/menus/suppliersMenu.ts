@@ -8,11 +8,7 @@ import {
 } from "react-icons/fi";
 
 export const suppliersMenu = [
-  {
-    title: "Home",
-    icon: FiHome,
-    link: "/home",
-  },
+
   {
     title: "Proveedores",
     icon: FiTruck,

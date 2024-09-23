@@ -2,14 +2,9 @@ import { FiHome, FiMapPin, FiPhone, FiUsers, FiSettings } from "react-icons/fi";
 
 export const branchesMenu = [
   {
-    title: "Home",
-    icon: FiHome,
-    link: "/home",
-  },
-  {
     title: "Sucursales",
     icon: FiHome,
-    link: "/branches/list",
+    link: "/branches",
   },
   {
     title: "Ubicaciones",
