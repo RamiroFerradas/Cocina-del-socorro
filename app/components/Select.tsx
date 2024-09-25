@@ -28,12 +28,14 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
         ref={ref}
         value={selectedOption}
         onChange={onChange}
-        className={`border border-gray-300 p-2 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600 transition-colors duration-200 ${className}`}
+        className={`border border-gray-300 p-2 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600 transition-colors duration-200 ${className} bg-transparent`}
         {...props}
       >
-        <option value="">{placeholder}</option>
+        <option className="bg-white" value="">
+          {placeholder}
+        </option>
         {options.map((option) => (
-          <option key={option.key} value={option.key}>
+          <option className="bg-white" key={option.key} value={option.key}>
             {option.value}
           </option>
         ))}
