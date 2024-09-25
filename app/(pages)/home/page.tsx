@@ -1,4 +1,5 @@
 import { Header } from "@/app/components/Header";
+import { productsMenu, salesMenu } from "@/app/menus";
 import Link from "next/link";
 import {
   FiBox,
@@ -15,7 +16,7 @@ export default function Home() {
       description: "Gestión de ventas.",
       category: "COMERCIAL",
       icon: FiShoppingCart,
-      link: "/sales",
+      link: salesMenu[0].link,
       color: "orange-500",
     },
     {
@@ -23,7 +24,7 @@ export default function Home() {
       description: "Gestión de productos.",
       category: "INVENTARIO",
       icon: FiBox,
-      link: "/products",
+      link: productsMenu[0].link,
       color: "green-500",
     },
     {

@@ -3,14 +3,14 @@ import { Card, CardContent, Typography, IconButton } from "@mui/material";
 import { Product } from "@/app/models/Product";
 import { useState, useEffect, MouseEvent } from "react";
 import Image from "next/image";
-import EditIcon from "@mui/icons-material/Edit"; // Ícono de editar
-import DeleteIcon from "@mui/icons-material/Delete"; // Ícono de eliminar
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import imgError from "public/images/Image-not-found.png";
 
 type ProductCardProps = {
   product: Product;
-  onEdit: (product: Product) => void;
-  onDelete: (id: number) => void;
+  onEdit?: (product: Product) => void;
+  onDelete?: (id: number) => void;
 };
 
 export function ProductCard({
@@ -27,13 +27,13 @@ export function ProductCard({
   }, [productApi]);
 
   const handleEdit = () => {
-    if (product) {
+    if (product && onEdit) {
       onEdit(product);
     }
   };
 
   const handleDelete = () => {
-    if (product) {
+    if (product && onDelete) {
       onDelete(product.id);
     }
   };
@@ -58,12 +58,16 @@ export function ProductCard({
           <span className="mt-4 text-xs">${product.price}</span>
         </CardContent>
         <div className="absolute top-0 right-0 flex flex-col items-center justify-center">
-          <IconButton onClick={handleEdit}>
-            <EditIcon fontSize="small" />
-          </IconButton>
-          <IconButton onClick={handleDelete} color="error">
-            <DeleteIcon fontSize="small" />
-          </IconButton>
+          {onEdit && (
+            <IconButton onClick={handleEdit}>
+              <EditIcon fontSize="small" />
+            </IconButton>
+          )}
+          {onDelete && (
+            <IconButton onClick={handleDelete} color="error">
+              <DeleteIcon fontSize="small" />
+            </IconButton>
+          )}
         </div>
       </Card>
     )

@@ -35,6 +35,8 @@ export const Products = ({ products }: Props) => {
     null
   );
   const [isLoadingButton, setIsLoadingButton] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+
   useEffect(() => {
     setFilteredProducts(products);
   }, [products]);
@@ -140,7 +142,6 @@ export const Products = ({ products }: Props) => {
     setIsModalOpen(true);
   };
 
-  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);

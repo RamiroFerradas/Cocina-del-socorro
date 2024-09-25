@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { FiLogOut, FiChevronDown, FiChevronRight } from "react-icons/fi";
 import { salesMenu, productsMenu, staffMenu, suppliersMenu } from "@/app/menus";
@@ -11,6 +11,21 @@ export function Sidebar() {
   const router = useRouter();
   const pathname = usePathname();
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
+  useEffect(() => {
+    if (pathname.startsWith("/sales")) {
+      setExpandedSection("Ventas");
+    } else if (pathname.startsWith("/products")) {
+      setExpandedSection("Productos");
+    } else if (pathname.startsWith("/branches")) {
+      setExpandedSection("Sucursales");
+    } else if (pathname.startsWith("/staff")) {
+      setExpandedSection("Staff");
+    } else if (pathname.startsWith("/proveedores")) {
+      setExpandedSection("Proveedores");
+    } else {
+      setExpandedSection(null);
+    }
+  }, [pathname]);
 
   const getSubMenuItems = (menuTitle: string) => {
     switch (menuTitle) {
