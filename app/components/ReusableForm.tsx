@@ -1,5 +1,10 @@
 "use client";
-import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
+import {
+  useForm,
+  SubmitHandler,
+  FieldValues,
+  DefaultValues,
+} from "react-hook-form";
 import { Button } from "./Button";
 
 interface Field {
@@ -8,12 +13,13 @@ interface Field {
   type: string;
   required?: boolean;
   defaultValue?: any;
+  options?: { label: string; value: string }[];
 }
 
 interface ReusableFormProps<T extends FieldValues> {
   fields: Field[];
   onSubmit: SubmitHandler<T>;
-  defaultValues?: T;
+  defaultValues?: DefaultValues<T>;
   submitButtonText?: string;
   onClose: () => void;
   isLoading?: boolean;
@@ -22,7 +28,7 @@ interface ReusableFormProps<T extends FieldValues> {
 export function ReusableForm<T extends FieldValues>({
   fields,
   onSubmit,
-  defaultValues = {} as T,
+  defaultValues = {} as DefaultValues<T>,
   submitButtonText = "Guardar",
   onClose,
   isLoading,
@@ -34,12 +40,26 @@ export function ReusableForm<T extends FieldValues>({
     formState: { errors },
   } = useForm<T>({
     defaultValues,
-  } as any);
+  });
 
   const handleNumberInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value, id } = event.target;
     const formattedValue = value.replace(",", ".");
-    setValue(id as any, formattedValue as any);
+
+    if (/^[0-9]*[.,]?[0-9]*$/.test(formattedValue) || formattedValue === "") {
+      setValue(id as any, formattedValue as any);
+    }
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (
+      !/[0-9.,]/.test(event.key) &&
+      !["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab"].includes(
+        event.key
+      )
+    ) {
+      event.preventDefault();
+    }
   };
 
   const maxRowsPerColumn = 5;
@@ -68,13 +88,32 @@ export function ReusableForm<T extends FieldValues>({
               {...register(field.name as any, { required: field.required })}
               className="mt-1 block w-full border border-gray-300 rounded-md p-2"
             />
+          ) : field.type === "select" ? (
+            <select
+              id={field.name}
+              {...register(field.name as any, { required: field.required })}
+              className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+            >
+              <option value="">Selecciona una opción</option>
+              {field.options?.map((option) => (
+                <option
+                  className="capitalize"
+                  key={option.value}
+                  value={option.value}
+                >
+                  <p className="capitalize">{option.label}</p>
+                </option>
+              ))}
+            </select>
           ) : (
             <input
               id={field.name}
-              type={field.type === "number" ? "text" : field.type} // Usar "text" para controlar el valor
+              type="text"
               {...register(field.name as any, { required: field.required })}
               className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-              onChange={field.type === "number" ? handleNumberInput : undefined} // Aplicar la función solo en inputs numéricos
+              onChange={field.type === "number" ? handleNumberInput : undefined}
+              onKeyDown={field.type === "number" ? handleKeyDown : undefined}
+              inputMode="decimal"
             />
           )}
           {errors[field.name] && (

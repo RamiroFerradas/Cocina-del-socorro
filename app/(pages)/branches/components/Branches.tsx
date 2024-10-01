@@ -2,6 +2,7 @@
 import { Branch } from "@/app/models/Branch";
 import { BranchtCard } from "./BranchCard";
 import {
+  ConfirmationModal,
   Header,
   Modal,
   ReusableForm,
@@ -13,7 +14,7 @@ import { useEffect, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { toast } from "react-toastify";
 import { saveBranch } from "@/app/services/branches/saveBranch";
-import ConfirmationModal from "@/app/components/ConfirmationModal";
+
 import { deleteBranch } from "@/app/services/branches/deleteBranch";
 
 type Props = { branches: Branch[] };
@@ -92,18 +93,16 @@ export const Branches = ({ branches }: Props) => {
     <section>
       <Header>
         {isClient && (
-          <>
-            <button
-              onClick={() => {
-                setEditingBranch(null);
-                setIsModalOpen(true);
-              }}
-              className="flex items-center justify-center p-2 my-2 text-gray-700 hover:bg-gray-100 rounded-md transition-colors duration-200 bg-white border border-gray-300"
-            >
-              <AddIcon className="size-4 mr-2 text-gray-600" />
-              <span className="text-sm font-medium">Agregar</span>
-            </button>
-          </>
+          <button
+            onClick={() => {
+              setEditingBranch(null);
+              setIsModalOpen(true);
+            }}
+            className="flex items-center justify-center p-2 my-2 text-gray-700 hover:bg-gray-100 rounded-md transition-colors duration-200 bg-white border border-gray-300"
+          >
+            <AddIcon className="size-4 mr-2 text-gray-600" />
+            <span className="text-sm font-medium">Agregar</span>
+          </button>
         )}
       </Header>
       <div className="container mx-auto py-8 flex flex-wrap gap-4 p-4">

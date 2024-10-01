@@ -1,6 +1,12 @@
 "use client";
-import { useEffect, useState } from "react";
-import { Header, Option, ReusableForm, SearchBar } from "@/app/components";
+import React, { useEffect, useState } from "react";
+import {
+  ConfirmationModal,
+  Header,
+  Option,
+  ReusableForm,
+  SearchBar,
+} from "@/app/components";
 import { Modal } from "@/app/components/Modal";
 import {
   deleteProduct,
@@ -11,7 +17,7 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import { Select } from "@/app/components";
 import { Product } from "@/app/models/Product";
-import ConfirmationModal from "@/app/components/ConfirmationModal";
+
 import {
   Toast,
   toastErrorStyles,
@@ -141,7 +147,6 @@ export const Products = ({ products }: Props) => {
     setEditingProduct(product);
     setIsModalOpen(true);
   };
-
 
   useEffect(() => {
     setIsClient(true);

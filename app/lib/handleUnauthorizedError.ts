@@ -8,5 +8,5 @@ export function handleUnauthorizedError(error: AxiosError) {
     console.log("Error no autorizado:", error.message);
   }
 
-  return Promise.reject(error);
+  return error;
 }

@@ -10,7 +10,7 @@ interface ConfirmationModalProps {
   isLoading?: boolean;
 }
 
-const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
+export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   isOpen,
   onClose,
   onConfirm,
@@ -41,5 +41,3 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
     </Modal>
   );
 };
-
-export default ConfirmationModal;
