@@ -3,12 +3,12 @@ import api from "@/app/lib/axios";
 
 export async function fetchAllBranches(): Promise<any[]> {
   try {
-    const response = await api("/branchs");
+    const response = await api("/branches");
 
     return response.data;
   } catch (error: any) {
     console.error(error);
 
-    throw error;
+    return [];
   }
 }
