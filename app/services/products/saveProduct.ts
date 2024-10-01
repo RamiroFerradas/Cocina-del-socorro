@@ -11,7 +11,7 @@ type ProductAction = {
 
 export async function saveProduct({
   data,
-  pathname = "/products",
+  pathname = "/products/inventory",
   isEdit = false,
 }: ProductAction) {
   try {
