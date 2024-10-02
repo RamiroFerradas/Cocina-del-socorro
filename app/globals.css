@@ -2,3 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.Select-menu-outer {
+  z-index: 999 !important;
+}
+.Select.is-open {
+  position: relative;
+  z-index: 1000;
+}

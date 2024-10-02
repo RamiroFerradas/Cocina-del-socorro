@@ -16,6 +16,7 @@ import { toast } from "react-toastify";
 import { saveBranch } from "@/app/services/branches/saveBranch";
 
 import { deleteBranch } from "@/app/services/branches/deleteBranch";
+import { usePathname } from "next/navigation";
 
 type Props = { branches: Branch[] };
 export const Branches = ({ branches }: Props) => {
@@ -25,6 +26,7 @@ export const Branches = ({ branches }: Props) => {
   const [isLoadingButton, setIsLoadingButton] = useState(false);
   const [branchIdToDelete, setBranchIdToDelete] = useState<number | null>(null);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     setIsClient(true);
@@ -34,7 +36,7 @@ export const Branches = ({ branches }: Props) => {
     try {
       setIsLoadingButton(true);
 
-      await saveBranch({ data, isEdit: !!editingBranch });
+      await saveBranch({ data, pathname, isEdit: !!editingBranch });
 
       toast(
         <Toast

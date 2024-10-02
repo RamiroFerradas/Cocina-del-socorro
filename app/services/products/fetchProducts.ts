@@ -2,9 +2,9 @@
 import api from "@/app/lib/axios";
 import { Product } from "@/app/models/Product";
 
-function delay(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
+// function delay(ms: number) {
+//   return new Promise((resolve) => setTimeout(resolve, ms));
+// }
 
 export async function fetchAllProducts(): Promise<Product[]> {
   try {

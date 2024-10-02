@@ -3,10 +3,11 @@ import React, { useEffect, useState } from "react";
 import {
   ConfirmationModal,
   Header,
-  Option,
   ReusableForm,
   SearchBar,
+  CustomSelect,
 } from "@/app/components";
+import { Option } from "@/app/models/Option";
 import { Modal } from "@/app/components/Modal";
 import {
   deleteProduct,
@@ -15,7 +16,6 @@ import {
   saveProduct,
 } from "@/app/services/products";
 import AddIcon from "@mui/icons-material/Add";
-import { Select } from "@/app/components";
 import { Product } from "@/app/models/Product";
 
 import {
@@ -68,12 +68,10 @@ export const Products = ({ products }: Props) => {
     setCategories(uniqueCategories);
   }, [products]);
 
-  const handleBrandChange = async (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
+  const handleBrandChange = async (selectedOption: Option) => {
     setSelectedCategory("");
-    const brand = event.target.value;
     var filtered;
+    var brand = selectedOption.value;
 
     if (brand) {
       filtered = await fetchProductsByBrand(brand);
@@ -85,12 +83,11 @@ export const Products = ({ products }: Props) => {
     setFilteredProducts(filtered);
   };
 
-  const handleCategoryChange = async (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
+  const handleCategoryChange = async (selectedOption: Option) => {
     setSelectedBrand("");
-    const category = event.target.value;
     var filtered;
+    var category = selectedOption.value;
+
     if (category) {
       filtered = await fetchProductsByCategory(category);
       setSelectedCategory(category);
@@ -178,19 +175,23 @@ export const Products = ({ products }: Props) => {
               setFilter={setFilteredProducts}
             />
             <div className="flex gap-2">
-              <Select
+              <CustomSelect
                 options={brands}
                 selectedOption={selectedBrand}
-                onChange={handleBrandChange}
+                onChange={(selectedOption) => handleBrandChange(selectedOption)}
                 placeholder="Marca"
                 className="w-full max-w-xs"
+                isSearchable={false}
               />
-              <Select
+              <CustomSelect
                 options={categories}
                 selectedOption={selectedCategory}
-                onChange={handleCategoryChange}
+                onChange={(selectedOption) =>
+                  handleCategoryChange(selectedOption)
+                }
                 placeholder="Categoría"
                 className="w-full max-w-xs"
+                isSearchable={false}
               />
             </div>
             <button

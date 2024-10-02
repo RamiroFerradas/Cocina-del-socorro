@@ -6,14 +6,18 @@ import {
   DefaultValues,
 } from "react-hook-form";
 import { Button } from "./Button";
+import { Option } from "@/app/models/Option";
+import { CustomSelect } from ".";
 
 interface Field {
   name: string;
   label: string;
   type: string;
   required?: boolean;
-  defaultValue?: any;
-  options?: { label: string; value: string }[];
+  defaultValue?: DefaultValues<any>;
+  options?: Option[];
+  isSearchable?: boolean;
+  onChange?: any;
 }
 
 interface ReusableFormProps<T extends FieldValues> {
@@ -84,27 +88,24 @@ export function ReusableForm<T extends FieldValues>({
           </label>
           {field.type === "textarea" ? (
             <textarea
+              defaultValue={field.defaultValue}
               id={field.name}
               {...register(field.name as any, { required: field.required })}
               className="mt-1 block w-full border border-gray-300 rounded-md p-2"
             />
-          ) : field.type === "select" ? (
-            <select
-              id={field.name}
-              {...register(field.name as any, { required: field.required })}
-              className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-            >
-              <option value="">Selecciona una opción</option>
-              {field.options?.map((option) => (
-                <option
-                  className="capitalize"
-                  key={option.value}
-                  value={option.value}
-                >
-                  <p className="capitalize">{option.label}</p>
-                </option>
-              ))}
-            </select>
+          ) : field.type === "select" && field.options ? (
+            <CustomSelect
+              options={field.options} // Pasa las opciones filtradas
+              error={errors[field.name]?.message as any}
+              isRequired={field.required}
+              isSearchable={field.isSearchable}
+              onChange={(selectedOption) => {
+                if (field.onChange) {
+                  field.onChange(selectedOption?.value as any);
+                }
+                setValue(field.name as any, selectedOption?.value as any);
+              }}
+            />
           ) : (
             <input
               id={field.name}
@@ -114,6 +115,7 @@ export function ReusableForm<T extends FieldValues>({
               onChange={field.type === "number" ? handleNumberInput : undefined}
               onKeyDown={field.type === "number" ? handleKeyDown : undefined}
               inputMode="decimal"
+              defaultValue={field.defaultValue}
             />
           )}
           {errors[field.name] && (
