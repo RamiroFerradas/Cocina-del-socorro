@@ -25,6 +25,7 @@ import {
 } from "@/app/components/Toast";
 import { toast } from "react-toastify";
 import { ProductCard } from "./ProductCard";
+import { useForm } from "react-hook-form";
 
 type Props = { products: Product[] };
 
@@ -42,7 +43,12 @@ export const Products = ({ products }: Props) => {
   );
   const [isLoadingButton, setIsLoadingButton] = useState(false);
   const [isClient, setIsClient] = useState(false);
-
+  const control = useForm<Product>({
+    mode: "onChange",
+  });
+  const {
+    formState: { isValid },
+  } = control;
   useEffect(() => {
     setFilteredProducts(products);
   }, [products]);
@@ -224,12 +230,13 @@ export const Products = ({ products }: Props) => {
         onClose={() => setIsModalOpen(false)}
         title={editingProduct ? "Editar Producto" : "Agregar Producto"}
       >
-        <ReusableForm<Product>
+        <ReusableForm
           fields={productFields}
           onSubmit={handleSubmit}
           defaultValues={editingProduct!}
           onClose={() => setIsModalOpen(false)}
           isLoading={isLoadingButton}
+          control={control}
         />
       </Modal>
       <ConfirmationModal

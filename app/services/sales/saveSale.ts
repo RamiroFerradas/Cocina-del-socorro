@@ -1,15 +1,19 @@
 "use server";
 import { revalidatePath } from "next/cache";
 import api from "@/app/lib/axios";
-import { Sale } from "@/app/models/Sale";
+import { SaleItem } from "@/app/models/Sale";
 
 type SaleAction = {
-  data: Sale[];
+  data: SaleItem[];
   isEdit?: boolean;
   pathname?: string;
 };
 
 export async function saveSale({ data, pathname = "/sales" }: SaleAction) {
+  data = data.map((sale) => ({
+    ...sale,
+    price: Number(sale.price) || 0,
+  }));
   console.log(data);
   try {
     const response = await api.post(`/sales`, data);

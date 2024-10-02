@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   ReusableForm,
   Modal,
@@ -7,16 +7,17 @@ import {
   toastErrorStyles,
   toastSuccessStyles,
 } from "@/app/components";
-import { Sale } from "@/app/models/Sale";
+import { SaleItem } from "@/app/models/Sale";
 import { Product } from "@/app/models/Product";
+import { Option } from "@/app/models/Option";
 import { saveSale } from "@/app/services/sales/saveSale";
 import { toast } from "react-toastify";
 import { usePathname } from "next/navigation";
-import { set } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 type SaleFormProps = {
   products: Product[];
-  editingSale?: Sale | null;
+  editingSale?: SaleItem | null;
   isModalOpen: boolean;
   setIsModalOpen: (isOpen: boolean) => void;
 };
@@ -31,11 +32,21 @@ export const SaleForm = ({
   const [productSale, setProductSale] = useState<Product | null>(null);
   const pathname = usePathname();
 
+  const control = useForm<SaleItem>({
+    mode: "onChange",
+    defaultValues: {
+      product_name: "",
+      quantity: 1,
+      price: 0,
+    },
+  });
+  const {
+    setValue,
+    formState: { isValid },
+  } = control;
+
   const filterProduct = (selectedProduct: string) => {
-    const product = products.find(
-      (product) => product.name === selectedProduct
-    );
-    setProductSale(product || null);
+    return products.find((product) => product.name === selectedProduct);
   };
 
   const SaleFields = [
@@ -49,8 +60,12 @@ export const SaleForm = ({
       })),
       isSearchable: true,
       required: true,
-      onChange: (selectedProduct: string) => {
-        filterProduct(selectedProduct);
+      onChange: (selectedProduct: Option) => {
+        const product = filterProduct(selectedProduct.value);
+        // Aquí actualizas el precio en el componente hijo
+        setValue("price", product?.price || 0);
+
+        setProductSale(product || null);
       },
     },
     {
@@ -69,20 +84,18 @@ export const SaleForm = ({
     },
   ];
 
-  const handleSubmit = async (data: Sale) => {
+  const handleSubmitForm = async (data: SaleItem) => {
     try {
       setIsLoadingButton(true);
-
       await saveSale({ data: [data], pathname });
-
       toast(
         <Toast
           variant="success"
-          title={editingSale ? "Producto actualizado" : "Producto agregado"}
+          title={editingSale ? "Venta actualizada" : "Venta agregada"}
           text={
             editingSale
-              ? "Producto actualizado exitosamente."
-              : "Producto agregado exitosamente."
+              ? "Venta actualizada exitosamente."
+              : "Venta agregada exitosamente."
           }
         />,
         {
@@ -118,15 +131,17 @@ export const SaleForm = ({
       onClose={() => setIsModalOpen(false)}
       title={editingSale ? "Editar Venta" : "Agregar Venta"}
     >
-      <ReusableForm<Sale>
+      <h2 className="text-lg font-bold">
+        {editingSale ? "Editar" : "Agregar"} venta
+      </h2>
+      <ReusableForm
         fields={SaleFields}
-        onSubmit={handleSubmit}
-        defaultValues={editingSale!}
-        onClose={() => {
-          setIsModalOpen(false);
-          setProductSale(null);
-        }}
+        onSubmit={handleSubmitForm}
+        submitButtonText={editingSale ? "Actualizar" : "Agregar"}
         isLoading={isLoadingButton}
+        onClose={() => setIsModalOpen(false)}
+        isFormValid={isValid}
+        control={control}
       />
     </Modal>
   );

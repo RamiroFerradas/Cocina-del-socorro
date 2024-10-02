@@ -5,3 +5,9 @@ export interface Sale {
   branch: string;
   sale_date: Date;
 }
+
+export interface SaleItem {
+  product_name: "";
+  quantity: number;
+  price: number;
+}

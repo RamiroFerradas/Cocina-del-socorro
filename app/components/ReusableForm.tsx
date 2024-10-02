@@ -14,44 +14,45 @@ interface Field {
   label: string;
   type: string;
   required?: boolean;
-  defaultValue?: DefaultValues<any>;
+  defaultValue?: any; // Cambiar a any para mayor flexibilidad
   options?: Option[];
   isSearchable?: boolean;
-  onChange?: any;
+  onChange?: (selectedOption: Option) => void;
 }
 
 interface ReusableFormProps<T extends FieldValues> {
   fields: Field[];
   onSubmit: SubmitHandler<T>;
-  defaultValues?: DefaultValues<T>;
   submitButtonText?: string;
   onClose: () => void;
   isLoading?: boolean;
+  isFormValid?: boolean;
+  defaultValues?: DefaultValues<T>;
+  control: any;
 }
 
 export function ReusableForm<T extends FieldValues>({
   fields,
   onSubmit,
-  defaultValues = {} as DefaultValues<T>,
   submitButtonText = "Guardar",
   onClose,
   isLoading,
+  isFormValid = true,
+  defaultValues,
+  control,
 }: ReusableFormProps<T>) {
   const {
     register,
     handleSubmit,
     setValue,
-    formState: { errors },
-  } = useForm<T>({
-    defaultValues,
-  });
+    formState: { errors, isValid },
+    getValues,
+  } = control;
 
   const handleNumberInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value, id } = event.target;
-    const formattedValue = value.replace(",", ".");
-
-    if (/^[0-9]*[.,]?[0-9]*$/.test(formattedValue) || formattedValue === "") {
-      setValue(id as any, formattedValue as any);
+    if (/^[0-9]*[.,]?[0-9]*$/.test(value) || value === "") {
+      setValue(id as any, value as any);
     }
   };
 
@@ -95,13 +96,13 @@ export function ReusableForm<T extends FieldValues>({
             />
           ) : field.type === "select" && field.options ? (
             <CustomSelect
-              options={field.options} // Pasa las opciones filtradas
+              options={field.options}
               error={errors[field.name]?.message as any}
               isRequired={field.required}
               isSearchable={field.isSearchable}
               onChange={(selectedOption) => {
                 if (field.onChange) {
-                  field.onChange(selectedOption?.value as any);
+                  field.onChange(selectedOption);
                 }
                 setValue(field.name as any, selectedOption?.value as any);
               }}
@@ -109,12 +110,12 @@ export function ReusableForm<T extends FieldValues>({
           ) : (
             <input
               id={field.name}
-              type="text"
+              type={field.type === "number" ? "text" : field.type}
               {...register(field.name as any, { required: field.required })}
               className="mt-1 block w-full border border-gray-300 rounded-md p-2"
               onChange={field.type === "number" ? handleNumberInput : undefined}
               onKeyDown={field.type === "number" ? handleKeyDown : undefined}
-              inputMode="decimal"
+              inputMode={field.type === "number" ? "decimal" : undefined}
               defaultValue={field.defaultValue}
             />
           )}
@@ -135,7 +136,11 @@ export function ReusableForm<T extends FieldValues>({
           Cancelar
         </Button>
 
-        <Button type="submit" isLoading={isLoading}>
+        <Button
+          type="submit"
+          isLoading={isLoading}
+          disabled={!isValid || !isFormValid}
+        >
           {submitButtonText}
         </Button>
       </div>

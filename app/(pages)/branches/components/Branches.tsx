@@ -17,6 +17,7 @@ import { saveBranch } from "@/app/services/branches/saveBranch";
 
 import { deleteBranch } from "@/app/services/branches/deleteBranch";
 import { usePathname } from "next/navigation";
+import { useForm } from "react-hook-form";
 
 type Props = { branches: Branch[] };
 export const Branches = ({ branches }: Props) => {
@@ -27,7 +28,16 @@ export const Branches = ({ branches }: Props) => {
   const [branchIdToDelete, setBranchIdToDelete] = useState<number | null>(null);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const pathname = usePathname();
-
+  const control = useForm<Branch>({
+    mode: "onChange",
+  });
+  const {
+    register,
+    // handleSubmit,
+    setValue,
+    formState: { errors, isValid },
+    getValues,
+  } = control;
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -122,12 +132,13 @@ export const Branches = ({ branches }: Props) => {
         onClose={() => setIsModalOpen(false)}
         title={editingBranch ? "Editar Producto" : "Agregar Producto"}
       >
-        <ReusableForm<Branch>
+        <ReusableForm
           fields={branchFields}
           onSubmit={handleSubmit}
           defaultValues={editingBranch!}
           onClose={() => setIsModalOpen(false)}
           isLoading={isLoadingButton}
+          control={control}
         />
       </Modal>
       <ConfirmationModal

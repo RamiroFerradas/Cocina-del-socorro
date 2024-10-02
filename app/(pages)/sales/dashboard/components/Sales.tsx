@@ -78,7 +78,6 @@ export const Sales = ({ sales, products }: Props) => {
 
       <SaleForm
         products={products}
-        editingSale={editingSale}
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
       />
