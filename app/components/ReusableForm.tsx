@@ -27,7 +27,7 @@ interface ReusableFormProps<T extends FieldValues> {
   onClose: () => void;
   isLoading?: boolean;
   isFormValid?: boolean;
-  defaultValues?: DefaultValues<T>;
+  // defaultValues?: DefaultValues<T>;
   control: any;
 }
 
@@ -38,7 +38,7 @@ export function ReusableForm<T extends FieldValues>({
   onClose,
   isLoading,
   isFormValid = true,
-  defaultValues,
+  // defaultValues,
   control,
 }: ReusableFormProps<T>) {
   const {
@@ -72,6 +72,8 @@ export function ReusableForm<T extends FieldValues>({
   const columns = Array.from({ length: numColumns }, (_, colIndex) =>
     fields.slice(colIndex * maxRowsPerColumn, (colIndex + 1) * maxRowsPerColumn)
   );
+
+  console.log(fields[0]);
 
   return (
     <form

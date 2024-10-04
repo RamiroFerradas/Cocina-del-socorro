@@ -2,6 +2,7 @@
 import { useState, ChangeEvent, useCallback } from "react";
 import { Product } from "@/app/models/Product";
 import CloseIcon from "@mui/icons-material/Close";
+
 interface SearchBarProps {
   placeholder?: string;
   items: Product[];
@@ -10,6 +11,7 @@ interface SearchBarProps {
   className?: string;
   showPreview?: boolean;
   setFilter: (filteredItems: Product[]) => void;
+  resultOnChangue: boolean;
 }
 
 export const SearchBar: React.FC<SearchBarProps> = ({
@@ -18,8 +20,9 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   onSearch,
   previewItemRenderer,
   className = "",
-  showPreview = true,
+  showPreview = false,
   setFilter,
+  resultOnChangue,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredItems, setFilteredItems] = useState<Product[]>([]);
@@ -37,12 +40,20 @@ export const SearchBar: React.FC<SearchBarProps> = ({
         );
         setFilteredItems(filtered);
         onSearch && onSearch(value, filtered);
+
+        if (resultOnChangue) {
+          setFilter(filtered);
+        }
       } else {
         setFilteredItems([]);
         onSearch && onSearch(value, []);
+
+        if (resultOnChangue) {
+          setFilter(items);
+        }
       }
     },
-    [items, onSearch, showPreview]
+    [items, onSearch, showPreview, resultOnChangue, setFilter]
   );
 
   const handleItemClick = (item: Product) => {
@@ -76,7 +87,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
         </button>
       )}
       {showPreview && filteredItems.length > 0 && openPreview && (
-        <div className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg">
+        <div className="absolute mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg z-40">
           {filteredItems.map((item) => (
             <div
               key={item.id}

@@ -2,6 +2,7 @@
 import { Product } from "@/app/models/Product";
 import { revalidatePath } from "next/cache";
 import api from "@/app/lib/axios";
+import { handleUnauthorizedError } from "@/app/lib/handleUnauthorizedError";
 
 type ProductAction = {
   data: Product;
@@ -28,6 +29,8 @@ export async function saveProduct({
       "Error saving product:",
       error.response?.data?.detail || error.message
     );
+    handleUnauthorizedError(error);
+
     throw error;
   }
 }

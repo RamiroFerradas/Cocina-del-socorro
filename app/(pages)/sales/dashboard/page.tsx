@@ -4,13 +4,15 @@ import { fetchAllSales } from "@/app/services/sales/fetchSales";
 import { fetchAllProducts } from "@/app/services/products";
 export const dynamic = "force-dynamic";
 
-export default async function DashboardSales() {
-  const salesPromise = fetchAllSales();
-  const products = await fetchAllProducts();
+export default function DashboardSales() {
+  const salesAndProductsPromise = Promise.all([
+    fetchAllSales(),
+    fetchAllProducts(),
+  ]);
 
   return (
     <Suspense fallback={<SalesLoadUi />}>
-      {salesPromise.then((sales) => (
+      {salesAndProductsPromise.then(([sales, products]) => (
         <Sales sales={sales} products={products} />
       ))}
     </Suspense>

@@ -26,6 +26,7 @@ import {
 import { toast } from "react-toastify";
 import { ProductCard } from "./ProductCard";
 import { useForm } from "react-hook-form";
+import { usePathname } from "next/navigation";
 
 type Props = { products: Product[] };
 
@@ -46,9 +47,7 @@ export const Products = ({ products }: Props) => {
   const control = useForm<Product>({
     mode: "onChange",
   });
-  const {
-    formState: { isValid },
-  } = control;
+  const pathname = usePathname();
   useEffect(() => {
     setFilteredProducts(products);
   }, [products]);
@@ -107,7 +106,10 @@ export const Products = ({ products }: Props) => {
     try {
       setIsLoadingButton(true);
 
-      await saveProduct({ data, isEdit: !!editingProduct });
+      await saveProduct({
+        data: { ...data, id: editingProduct?.id || 0 },
+        isEdit: !!editingProduct,
+      });
 
       toast(
         <Toast
@@ -124,7 +126,6 @@ export const Products = ({ products }: Props) => {
           className: toastSuccessStyles,
         }
       );
-
       setIsModalOpen(false);
     } catch (error: any) {
       toast(
@@ -143,6 +144,7 @@ export const Products = ({ products }: Props) => {
       );
     } finally {
       setIsLoadingButton(false);
+      setEditingProduct(null);
     }
   };
 
@@ -163,12 +165,63 @@ export const Products = ({ products }: Props) => {
   const confirmDelete = async () => {
     if (productIdToDelete !== null) {
       setIsLoadingButton(true);
-      await deleteProduct(productIdToDelete);
+      await deleteProduct(productIdToDelete, pathname);
       setIsLoadingButton(true);
       setIsConfirmationModalOpen(false);
     }
   };
-
+  const productFields = [
+    {
+      name: "name",
+      label: "Nombre",
+      type: "text",
+      required: true,
+      defaultValue: editingProduct?.name,
+    },
+    {
+      name: "brand",
+      label: "Marca",
+      type: "text",
+      required: true,
+      defaultValue: editingProduct?.brand,
+    },
+    {
+      name: "category",
+      label: "Categoría",
+      type: "text",
+      required: true,
+      defaultValue: editingProduct?.category,
+    },
+    {
+      name: "description",
+      label: "Descripción",
+      type: "textarea",
+      required: true,
+      defaultValue: editingProduct?.description,
+    },
+    {
+      name: "image_url",
+      label: "URL de Imagen",
+      type: "text",
+      required: true,
+      defaultValue: editingProduct?.image_url,
+    },
+    {
+      name: "price",
+      label: "Precio",
+      type: "number",
+      required: true,
+      defaultValue: editingProduct?.price,
+    },
+    {
+      name: "sku",
+      label: "SKU",
+      type: "text",
+      required: true,
+      defaultValue: editingProduct?.sku,
+    },
+  ];
+  console.log(editingProduct);
   return (
     <section>
       <Header>
@@ -176,9 +229,9 @@ export const Products = ({ products }: Props) => {
           <>
             <SearchBar
               items={products}
-              showPreview={true}
               placeholder="Buscar productos..."
               setFilter={setFilteredProducts}
+              resultOnChangue={true}
             />
             <div className="flex gap-2">
               <CustomSelect
@@ -233,7 +286,7 @@ export const Products = ({ products }: Props) => {
         <ReusableForm
           fields={productFields}
           onSubmit={handleSubmit}
-          defaultValues={editingProduct!}
+          // defaultValues={editingProduct!}
           onClose={() => setIsModalOpen(false)}
           isLoading={isLoadingButton}
           control={control}
@@ -250,18 +303,3 @@ export const Products = ({ products }: Props) => {
     </section>
   );
 };
-
-const productFields = [
-  { name: "name", label: "Nombre", type: "text", required: true },
-  { name: "brand", label: "Marca", type: "text", required: true },
-  { name: "category", label: "Categoría", type: "text", required: true },
-  {
-    name: "description",
-    label: "Descripción",
-    type: "textarea",
-    required: true,
-  },
-  { name: "image_url", label: "URL de Imagen", type: "text", required: true },
-  { name: "price", label: "Precio", type: "number", required: true },
-  { name: "sku", label: "SKU", type: "text", required: true },
-];
