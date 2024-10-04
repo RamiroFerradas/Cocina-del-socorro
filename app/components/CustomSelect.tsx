@@ -59,12 +59,12 @@ export const CustomSelect = ({
             "",
         })
       }
-      className={`border border-gray-300 p-2 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600 transition-colors duration-200 ${className} bg-transparent`}
+      className={`border border-gray-300 p-2 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600 transition-colors duration-200 ${className} bg-white`}
       required={isRequired}
     >
-      <option value="">{placeholder}</option>
+      <option className="bg-white">{placeholder}</option>
       {options.map((option) => (
-        <option key={option.key} value={option.key}>
+        <option key={option.key} value={option.key} className="bg-white">
           {option.value}
         </option>
       ))}

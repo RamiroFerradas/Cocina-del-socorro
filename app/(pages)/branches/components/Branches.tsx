@@ -135,7 +135,7 @@ export const Branches = ({ branches }: Props) => {
         <ReusableForm
           fields={branchFields}
           onSubmit={handleSubmit}
-          defaultValues={editingBranch!}
+          // defaultValues={editingBranch!}
           onClose={() => setIsModalOpen(false)}
           isLoading={isLoadingButton}
           control={control}
