@@ -8,6 +8,7 @@ import {
 import { Button } from "./Button";
 import { Option } from "@/app/models/Option";
 import { CustomSelect } from ".";
+import { useEffect } from "react";
 
 interface Field {
   name: string;
@@ -72,8 +73,6 @@ export function ReusableForm<T extends FieldValues>({
   const columns = Array.from({ length: numColumns }, (_, colIndex) =>
     fields.slice(colIndex * maxRowsPerColumn, (colIndex + 1) * maxRowsPerColumn)
   );
-
-  console.log(fields[0]);
 
   return (
     <form

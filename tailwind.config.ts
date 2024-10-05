@@ -29,6 +29,9 @@ const config: Config = {
           1200: "#001437",
         },
       },
+      height: {
+        "screen-header": "calc(100vh - 4rem)",
+      },
     },
   },
   plugins: [],

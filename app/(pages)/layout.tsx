@@ -13,7 +13,7 @@ export default function PagesLayout({
       <div className="w-[calc(100vw-16rem)] ">
         <ToastContainer />
 
-        <div className="max-h-screen overflow-auto pt-11">{children}</div>
+        <div className="">{children}</div>
       </div>
     </section>
   );

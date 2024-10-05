@@ -44,10 +44,12 @@ export const Products = ({ products }: Props) => {
   );
   const [isLoadingButton, setIsLoadingButton] = useState(false);
   const [isClient, setIsClient] = useState(false);
+  const [productFields, setProductFields] = useState<any[]>([]);
   const control = useForm<Product>({
     mode: "onChange",
   });
   const pathname = usePathname();
+
   useEffect(() => {
     setFilteredProducts(products);
   }, [products]);
@@ -149,6 +151,7 @@ export const Products = ({ products }: Props) => {
   };
 
   const handleEdit = (product: Product) => {
+    setEditingProduct(null);
     setEditingProduct(product);
     setIsModalOpen(true);
   };
@@ -170,58 +173,62 @@ export const Products = ({ products }: Props) => {
       setIsConfirmationModalOpen(false);
     }
   };
-  const productFields = [
-    {
-      name: "name",
-      label: "Nombre",
-      type: "text",
-      required: true,
-      defaultValue: editingProduct?.name,
-    },
-    {
-      name: "brand",
-      label: "Marca",
-      type: "text",
-      required: true,
-      defaultValue: editingProduct?.brand,
-    },
-    {
-      name: "category",
-      label: "Categoría",
-      type: "text",
-      required: true,
-      defaultValue: editingProduct?.category,
-    },
-    {
-      name: "description",
-      label: "Descripción",
-      type: "textarea",
-      required: true,
-      defaultValue: editingProduct?.description,
-    },
-    {
-      name: "image_url",
-      label: "URL de Imagen",
-      type: "text",
-      required: true,
-      defaultValue: editingProduct?.image_url,
-    },
-    {
-      name: "price",
-      label: "Precio",
-      type: "number",
-      required: true,
-      defaultValue: editingProduct?.price,
-    },
-    {
-      name: "sku",
-      label: "SKU",
-      type: "text",
-      required: true,
-      defaultValue: editingProduct?.sku,
-    },
-  ];
-  console.log(editingProduct);
+
+  // Update productFields whenever editingProduct changes
+  useEffect(() => {
+    setProductFields([
+      {
+        name: "name",
+        label: "Nombre",
+        type: "text",
+        required: true,
+        defaultValue: editingProduct?.name,
+      },
+      {
+        name: "brand",
+        label: "Marca",
+        type: "text",
+        required: true,
+        defaultValue: editingProduct?.brand,
+      },
+      {
+        name: "category",
+        label: "Categoría",
+        type: "text",
+        required: true,
+        defaultValue: editingProduct?.category,
+      },
+      {
+        name: "description",
+        label: "Descripción",
+        type: "textarea",
+        required: true,
+        defaultValue: editingProduct?.description,
+      },
+      {
+        name: "image_url",
+        label: "URL de Imagen",
+        type: "text",
+        required: true,
+        defaultValue: editingProduct?.image_url,
+      },
+      {
+        name: "price",
+        label: "Precio",
+        type: "number",
+        required: true,
+        defaultValue: editingProduct?.price,
+      },
+      {
+        name: "sku",
+        label: "SKU",
+        type: "text",
+        required: true,
+        defaultValue: editingProduct?.sku,
+      },
+    ]);
+  }, [editingProduct]);
+
   return (
     <section>
       <Header>

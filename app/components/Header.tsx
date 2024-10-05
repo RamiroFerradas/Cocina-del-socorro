@@ -21,7 +21,7 @@ export function Header({ defaultTitle = "Inicio", children }: HeaderProps) {
   const title = translations[route] || defaultTitle;
 
   return (
-    <header className="flex w-[calc(100vw-16rem)] justify-between items-center border-b bg-white min-h-16 px-4 fixed top-0">
+    <header className="flex w-[calc(100vw-16rem)] justify-between items-center border-b bg-white h-16 px-4 top-0 !z-50">
       <h1 className="text-gray-800 font-bold">{title}</h1>
 
       {children}

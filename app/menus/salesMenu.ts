@@ -8,11 +8,15 @@ import {
 } from "react-icons/fi";
 
 export const salesMenu = [
-
   {
     title: "Dashboard",
     icon: FiBarChart,
     link: "/sales/dashboard",
+  },
+  {
+    title: "Vender",
+    icon: FiFileText,
+    link: "/sales/sell",
   },
   {
     title: "Facturas",

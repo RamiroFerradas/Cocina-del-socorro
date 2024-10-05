@@ -40,7 +40,7 @@ export function ProductCard({
 
   return (
     product && (
-      <Card className="w-full max-w-40 max-w- bg-white shadow-md !rounded-xl min-h-44 flex justify-beween flex-col relative overflow-hidden !z-30">
+      <Card className="w-full max-w-40 max-w- bg-white shadow-md !rounded-xl min-h-44 flex justify-beween flex-col relative overflow-hidden">
         <div className="h-28 rounded-b-xl overflow-hidden shadow-sm">
           <Image
             // src={imageError ? imgError : productApi.imageUrl}
