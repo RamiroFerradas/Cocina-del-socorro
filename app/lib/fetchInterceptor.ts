@@ -51,9 +51,9 @@ const api = {
       const response = await fetch(`${baseURL}${url}`, options);
 
       // Manejar el error de autorización
-      if (!response.ok) {
-        await handleUnauthorizedError(response);
-      }
+      // if (!response.ok) {
+      //   await handleUnauthorizedError(response);
+      // }
 
       return (await response.json()) as T; // Retorna la respuesta en formato JSON
     } catch (error) {
