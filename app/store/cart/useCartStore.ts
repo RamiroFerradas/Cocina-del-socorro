@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import { Product } from "@/app/models/Product";
 import { SaleItem } from "@/app/models/Sale";
 
 interface CartStore {
@@ -7,6 +6,7 @@ interface CartStore {
   addToCart: (product: SaleItem) => void;
   removeFromCart: (product: SaleItem) => void;
   updateQuantity: (product: SaleItem, quantity: number) => void;
+  clearCart: () => void; // Nueva función para limpiar el carrito
   calculateTotal: () => number;
 }
 
@@ -43,7 +43,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
   removeFromCart: (product) =>
     set((state) => {
       const existingItem = state.cartItems.find(
-        (item) => item.id === product.id // Comparar por 'id'
+        (item) => item.id === product.id
       );
       if (existingItem && existingItem.quantity > 1) {
         return {
@@ -70,6 +70,8 @@ export const useCartStore = create<CartStore>((set, get) => ({
       }
       return state;
     }),
+
+  clearCart: () => set({ cartItems: [] }), // Función para limpiar el carrito
 
   calculateTotal: (): number => {
     return parseFloat(

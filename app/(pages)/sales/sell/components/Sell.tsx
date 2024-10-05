@@ -25,13 +25,14 @@ export const Sell = ({ products }: Props) => {
     setIsClient(true);
   }, []);
 
-  const { cartItems, addToCart, updateQuantity, calculateTotal } =
+  const { cartItems, addToCart, updateQuantity, calculateTotal, clearCart } =
     useCartStore();
 
   const handleSale = async () => {
     setIsLoadingButton(true);
     try {
       await saveSale({ data: cartItems, pathname: "/ventas" });
+      clearCart();
       toast(
         <Toast
           variant="success"
@@ -43,7 +44,6 @@ export const Sell = ({ products }: Props) => {
           className: toastSuccessStyles,
         }
       );
-      console.log("Venta realizada con éxito");
     } catch (error: any) {
       toast(
         <Toast
