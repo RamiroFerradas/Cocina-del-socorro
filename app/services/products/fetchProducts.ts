@@ -9,7 +9,6 @@ function delay(ms: number) {
 export async function fetchAllProducts(): Promise<Product[]> {
   try {
     const response = await api("/products");
-    await delay(300000);
     return response.data;
   } catch (error: any) {
     console.error(error);
