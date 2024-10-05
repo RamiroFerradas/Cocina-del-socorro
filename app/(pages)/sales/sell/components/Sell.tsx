@@ -71,24 +71,22 @@ export const Sell = ({ products }: Props) => {
       {isClient && (
         <div className="flex h-screen-header">
           <div className="w-3/4 flex flex-wrap gap-4 p-4 overflow-scroll">
-            {[...products, ...products, ...products, ...products].map(
-              (product) => (
-                <div
-                  key={product.id}
-                  onClick={() =>
-                    addToCart({
-                      id: product.id,
-                      product_name: product.name,
-                      price: product.price,
-                      quantity: 1,
-                    })
-                  }
-                  className="cursor-pointer w-40 h28 flex"
-                >
-                  <ProductCard product={product} />
-                </div>
-              )
-            )}
+            {products.map((product) => (
+              <div
+                key={product.id}
+                onClick={() =>
+                  addToCart({
+                    id: product.id,
+                    product_name: product.name,
+                    price: product.price,
+                    quantity: 1,
+                  })
+                }
+                className="cursor-pointer w-40 h28 flex"
+              >
+                <ProductCard product={product} />
+              </div>
+            ))}
           </div>
           <div className="w-1/4 bg-white flex flex-col justify-between p-2">
             <div className="">
