@@ -71,8 +71,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
       return state;
     }),
 
-  clearCart: () => set({ cartItems: [] }), // Función para limpiar el carrito
-
+  clearCart: () => set({ cartItems: [] }),
   calculateTotal: (): number => {
     return parseFloat(
       get()

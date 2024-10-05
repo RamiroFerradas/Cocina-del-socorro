@@ -93,7 +93,7 @@ export const Sell = ({ products }: Props) => {
               <h2 className="text-xl font-bold mb-4">Items</h2>
               <div className="h-[calc(100vh-14rem)] overflow-auto">
                 {cartItems.length === 0 ? (
-                  <p>No hay productos en el carrito</p>
+                  <p>No hay productos seleccionados</p>
                 ) : (
                   <ul>
                     {cartItems.map((item) => (
