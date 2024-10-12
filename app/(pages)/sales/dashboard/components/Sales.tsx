@@ -24,26 +24,29 @@ type Props = {
 };
 
 export const Sales = ({ sales }: Props) => {
-  console.log(sales);
   const [isClient, setIsClient] = useState(false);
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [showCalendar, setShowCalendar] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedSale, setSelectedSale] = useState<number | null>(null);
-  const [selectedShift, setSelectedShift] = useState<string | null>(null); // Estado para el turno
-  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
   const salesPerPage = 3;
 
   useEffect(() => {
     setIsClient(true);
+
+    const today = dayjs();
+    setEndDate(today.toDate());
+    setStartDate(today.subtract(7, "day").toDate());
   }, []);
 
-  const filteredSales = selectedDate
-    ? sales.filter((sale) => {
-        const saleDate = dayjs(sale.sale_date);
-        return saleDate.isSame(dayjs(selectedDate), "day");
-      })
-    : sales;
+  const filteredSales = sales.filter((sale) => {
+    const saleDate = dayjs(sale.sale_date);
+    return (
+      (!startDate || saleDate.isAfter(dayjs(startDate))) &&
+      (!endDate || saleDate.isBefore(dayjs(endDate).add(1, "day")))
+    ); // Inclusive
+  });
 
   const groupedSales = groupSalesByDayAndTurno(filteredSales);
   const days = Object.entries(groupedSales).sort(
@@ -65,17 +68,9 @@ export const Sales = ({ sales }: Props) => {
     setShowCalendar(!showCalendar);
   };
 
-  // Actualizar openDrawer para recibir y establecer el turno
-  const openDrawer = (sale: Sale, shift: string) => {
-    setSelectedSale(sale.id);
-    setSelectedShift(shift); // Aquí se establece el turno
-    setDrawerOpen(true);
-  };
-
-  const closeDrawer = () => {
-    setDrawerOpen(false);
-    setSelectedSale(null);
-    setSelectedShift(null); // Resetear el turno al cerrar
+  const handleDateChange = (dates: Date[]) => {
+    setStartDate(dates[0]);
+    setEndDate(dates[1]);
   };
 
   return (
@@ -87,18 +82,19 @@ export const Sales = ({ sales }: Props) => {
             onClick={toggleCalendar}
             className="bg-gray-500 text-white px-4 py-2 rounded"
           >
-            Fechas{" "}
+            Fechas
           </Button>
 
           {/* Calendario con posición absoluta */}
           {showCalendar && (
-            <div className="absolute top-12 right-0 z-10 bg-white shadow-lg p-4">
+            <div
+              className="absolute top-12 right-0 z-10 bg-white shadow-lg p-4"
+              onClick={(e) => e.stopPropagation()}
+            >
               <Calendar
-                onChange={(date) => {
-                  setSelectedDate(date as Date);
-                  setShowCalendar(false);
-                }}
-                value={selectedDate}
+                onChange={handleDateChange as any}
+                value={[startDate, endDate]}
+                selectRange
               />
             </div>
           )}
@@ -150,15 +146,6 @@ export const Sales = ({ sales }: Props) => {
                                 <TableCell>
                                   {new Date(sale.sale_date).toLocaleString()}
                                 </TableCell>
-                                {/* <TableCell>
-                                  <IconButton
-                                    onClick={() => openDrawer(sale, turno)} 
-                                    
-                                    aria-label="Ver detalles"
-                                  >
-                                    <Visibility />
-                                  </IconButton>
-                                </TableCell> */}
                               </TableRow>
                             ))}
                           </>
@@ -176,16 +163,6 @@ export const Sales = ({ sales }: Props) => {
             onChange={handlePageChange}
             className="flex justify-center my-4"
           />
-          {/* 
-          <Drawer anchor="right" open={drawerOpen} onClose={closeDrawer}>
-            <SaleDetailServer saleId={selectedSale} shift={selectedShift} e />
-            <Button
-              className="w-full mt-4 bg-blue-600 text-white hover:bg-blue-700 rounded-md py-2"
-              onClick={closeDrawer}
-            >
-              Cerrar
-            </Button>
-          </Drawer> */}
         </>
       )}
     </section>
