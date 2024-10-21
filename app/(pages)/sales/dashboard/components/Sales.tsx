@@ -8,6 +8,8 @@ import {
   TableRow,
   Paper,
   Pagination,
+  Drawer,
+  IconButton,
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import Calendar from "react-calendar";
@@ -17,6 +19,10 @@ import { Button, Header } from "@/app/components";
 import "react-calendar/dist/Calendar.css";
 import dayjs from "dayjs";
 import { groupSalesByDayAndTurno } from "@/app/(pages)/sales/helpers";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import { BASE_PATH } from "@/app/constants";
+import { SaleDetailClient } from "./SaleDetail.client";
 
 type Props = {
   sales: Sale[];
@@ -27,17 +33,23 @@ export const Sales = ({ sales }: Props) => {
   const [isClient, setIsClient] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
+  const [selectedTurno, setSelectedTurno] = useState<string | null>(null); // Estado para el turno seleccionado
   const salesPerPage = 3;
+  const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     setIsClient(true);
 
+    // Obtener el lunes de la semana actual
     const today = dayjs();
-    setEndDate(today.toDate());
-    setStartDate(today.subtract(7, "day").toDate());
+    const startOfWeek = today.startOf("week").add(1, "day"); // El lunes
+    const endOfWeek = startOfWeek.add(6, "day"); // El domingo
+
+    setStartDate(startOfWeek.toDate());
+    setEndDate(endOfWeek.toDate());
   }, []);
 
   const filteredSales = sales.filter((sale) => {
@@ -45,7 +57,7 @@ export const Sales = ({ sales }: Props) => {
     return (
       (!startDate || saleDate.isAfter(dayjs(startDate))) &&
       (!endDate || saleDate.isBefore(dayjs(endDate).add(1, "day")))
-    ); // Inclusive
+    );
   });
 
   const groupedSales = groupSalesByDayAndTurno(filteredSales);
@@ -73,6 +85,12 @@ export const Sales = ({ sales }: Props) => {
     setEndDate(dates[1]);
   };
 
+  const [openDrawer, setOpenDrawer] = useState(false);
+
+  const handleCloseDrawer = () => {
+    setOpenDrawer(false);
+  };
+
   return (
     <section>
       <Header>
@@ -85,7 +103,6 @@ export const Sales = ({ sales }: Props) => {
             Fechas
           </Button>
 
-          {/* Calendario con posición absoluta */}
           {showCalendar && (
             <div
               className="absolute top-12 right-0 z-10 bg-white shadow-lg p-4"
@@ -105,18 +122,16 @@ export const Sales = ({ sales }: Props) => {
         <>
           <div className="h-[calc(100vh-8rem)] overflow-auto">
             <TableContainer
-              className="container mx-auto py-8 flex flex-wrap gap-4 p-4"
+              className=" mx-auto py-8 flex flex-wrap gap-4 p-4"
               component={Paper}
             >
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell>ID</TableCell>
                     <TableCell>Username</TableCell>
                     <TableCell>Total</TableCell>
                     <TableCell>Sucursal</TableCell>
                     <TableCell>Fecha</TableCell>
-                    <TableCell>Acciones</TableCell>{" "}
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -136,8 +151,7 @@ export const Sales = ({ sales }: Props) => {
                             </TableRow>
 
                             {sales.map((sale) => (
-                              <TableRow key={sale.id}>
-                                <TableCell>{sale.id}</TableCell>
+                              <TableRow key={sale.id} className=" w-full">
                                 <TableCell>{sale.username}</TableCell>
                                 <TableCell>
                                   ${sale.total_amount.toFixed(2)}
@@ -145,6 +159,22 @@ export const Sales = ({ sales }: Props) => {
                                 <TableCell>{sale.branch}</TableCell>
                                 <TableCell>
                                   {new Date(sale.sale_date).toLocaleString()}
+                                </TableCell>
+                                <TableCell>
+                                  <IconButton
+                                    aria-label="ver detalle"
+                                    className="hover:bg-gray-200"
+                                    onClick={() => {
+                                      setSelectedTurno(turno); // Guardar el turno
+                                      router.replace(
+                                        `${BASE_PATH}/${pathname}?id=${sale.id}`
+                                      );
+                                      setOpenDrawer(true);
+                                      setShowCalendar(false);
+                                    }}
+                                  >
+                                    <VisibilityIcon />
+                                  </IconButton>
                                 </TableCell>
                               </TableRow>
                             ))}
@@ -163,6 +193,10 @@ export const Sales = ({ sales }: Props) => {
             onChange={handlePageChange}
             className="flex justify-center my-4"
           />
+          <Drawer anchor="right" open={openDrawer} onClose={handleCloseDrawer}>
+            {/* Contenido del drawer */}
+            {selectedTurno && <SaleDetailClient shift={selectedTurno} />}
+          </Drawer>
         </>
       )}
     </section>

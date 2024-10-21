@@ -4,6 +4,7 @@ export interface Sale {
   total_amount: number;
   branch: string;
   sale_date: Date;
+  sale_items: SaleItem[];
 }
 
 export interface SaleItem {

@@ -1,3 +1,4 @@
-export * from './SaleForm';
-export * from './Sales';
-export * from './SalesLoadUi';
+export * from "./SaleDetail.client";
+export * from "./SaleForm";
+export * from "./Sales";
+export * from "./SalesLoadUi";

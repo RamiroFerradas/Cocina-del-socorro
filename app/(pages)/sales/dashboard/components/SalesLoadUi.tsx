@@ -21,7 +21,7 @@ export const SalesLoadUi = (props: Props) => {
     <section>
       <Header />
       <TableContainer
-        className="container mx-auto py-8 flex flex-wrap gap-4 p-4"
+        className=" mx-auto py-8 flex flex-wrap gap-4 p-4"
         component={Paper}
       >
         <Table>
