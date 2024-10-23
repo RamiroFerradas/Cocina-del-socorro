@@ -19,7 +19,7 @@ import { Button, Header } from "@/app/components";
 import "react-calendar/dist/Calendar.css";
 import dayjs from "dayjs";
 import { groupSalesByDayAndTurno } from "@/app/(pages)/sales/helpers";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { BASE_PATH } from "@/app/constants";
 import { SaleDetailClient } from "./SaleDetail.client";
@@ -35,7 +35,7 @@ export const Sales = ({ sales }: Props) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
-  const [selectedTurno, setSelectedTurno] = useState<string | null>(null); // Estado para el turno seleccionado
+  const [selectedTurno, setSelectedTurno] = useState<string | null>(null);
   const salesPerPage = 3;
   const router = useRouter();
   const pathname = usePathname();
@@ -43,10 +43,9 @@ export const Sales = ({ sales }: Props) => {
   useEffect(() => {
     setIsClient(true);
 
-    // Obtener el lunes de la semana actual
     const today = dayjs();
-    const startOfWeek = today.startOf("week").add(1, "day"); // El lunes
-    const endOfWeek = startOfWeek.add(6, "day"); // El domingo
+    const startOfWeek = today.startOf("week").add(1, "day");
+    const endOfWeek = startOfWeek.add(6, "day");
 
     setStartDate(startOfWeek.toDate());
     setEndDate(endOfWeek.toDate());
@@ -76,7 +75,8 @@ export const Sales = ({ sales }: Props) => {
     setCurrentPage(value);
   };
 
-  const toggleCalendar = () => {
+  const toggleCalendar = (e: any) => {
+    e.stopPropagation();
     setShowCalendar(!showCalendar);
   };
 
@@ -92,7 +92,7 @@ export const Sales = ({ sales }: Props) => {
   };
 
   return (
-    <section>
+    <section onClick={() => setShowCalendar(false)}>
       <Header>
         <div className="flex justify-end p-4 relative">
           <Button
@@ -194,8 +194,7 @@ export const Sales = ({ sales }: Props) => {
             className="flex justify-center my-4"
           />
           <Drawer anchor="right" open={openDrawer} onClose={handleCloseDrawer}>
-            {/* Contenido del drawer */}
-            {selectedTurno && <SaleDetailClient shift={selectedTurno} />}
+            {<SaleDetailClient shift={selectedTurno!} />}
           </Drawer>
         </>
       )}

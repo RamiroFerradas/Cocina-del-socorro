@@ -60,7 +60,7 @@ export const SaleDetailClient = ({ shift }: SaleDetailProps) => {
   }
 
   return (
-    <div className="p-4 w-96 bg-white shadow-lg rounded-lg h-[90vh] overflow-y-auto">
+    <div className="p-4 w-96 bg-white shadow-lg rounded-lg h-full overflow-y-auto">
       <h5 className="font-bold text-xl text-center mb-4">
         Detalles de la Venta
       </h5>
