@@ -1,10 +1,5 @@
 "use client";
-import {
-  useForm,
-  SubmitHandler,
-  FieldValues,
-  DefaultValues,
-} from "react-hook-form";
+import { SubmitHandler, FieldValues } from "react-hook-form";
 import { Button } from "./Button";
 import { Option } from "@/app/models/Option";
 import { CustomSelect } from ".";
@@ -28,7 +23,6 @@ interface ReusableFormProps<T extends FieldValues> {
   onClose: () => void;
   isLoading?: boolean;
   isFormValid?: boolean;
-  // defaultValues?: DefaultValues<T>;
   control: any;
 }
 
@@ -39,7 +33,6 @@ export function ReusableForm<T extends FieldValues>({
   onClose,
   isLoading,
   isFormValid = true,
-  // defaultValues,
   control,
 }: ReusableFormProps<T>) {
   const {
@@ -49,6 +42,13 @@ export function ReusableForm<T extends FieldValues>({
     formState: { errors, isValid },
     getValues,
   } = control;
+  useEffect(() => {
+    fields.forEach((field) => {
+      if (field.defaultValue !== undefined) {
+        setValue(field.name as any, field.defaultValue);
+      }
+    });
+  }, [fields, setValue]);
 
   const handleNumberInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value, id } = event.target;

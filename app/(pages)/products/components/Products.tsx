@@ -48,6 +48,8 @@ export const Products = ({ products }: Props) => {
   const control = useForm<Product>({
     mode: "onChange",
   });
+
+  console.log(editingProduct);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -225,6 +227,13 @@ export const Products = ({ products }: Props) => {
         type: "text",
         required: true,
         defaultValue: editingProduct?.sku,
+      },
+      {
+        name: "quantity",
+        label: "Stock",
+        type: "number",
+        required: true,
+        defaultValue: 0,
       },
     ]);
   }, [editingProduct]);
