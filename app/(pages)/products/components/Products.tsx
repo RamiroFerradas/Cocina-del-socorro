@@ -49,7 +49,6 @@ export const Products = ({ products }: Props) => {
     mode: "onChange",
   });
 
-  console.log(editingProduct);
   const pathname = usePathname();
 
   useEffect(() => {
