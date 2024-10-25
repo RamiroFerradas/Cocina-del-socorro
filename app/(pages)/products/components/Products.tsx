@@ -27,6 +27,7 @@ import { toast } from "react-toastify";
 import { ProductCard } from "./ProductCard";
 import { useForm } from "react-hook-form";
 import { usePathname } from "next/navigation";
+import { uploadImage } from "@/app/services/images/uploadImage";
 
 type Props = { products: Product[] };
 
@@ -48,7 +49,6 @@ export const Products = ({ products }: Props) => {
   const control = useForm<Product>({
     mode: "onChange",
   });
-
   const pathname = usePathname();
 
   useEffect(() => {
@@ -108,9 +108,18 @@ export const Products = ({ products }: Props) => {
   const handleSubmit = async (data: Product) => {
     try {
       setIsLoadingButton(true);
+      const formData = new FormData();
+      const file = data.image_url;
+      formData.append("image", file as any);
+      formData.append("section", data.category);
+      const imageUrl = await uploadImage(formData);
 
       await saveProduct({
-        data: { ...data, id: editingProduct?.id || 0 },
+        data: {
+          ...data,
+          id: editingProduct?.id || 0,
+          image_url: imageUrl.url || "",
+        },
         isEdit: !!editingProduct,
       });
 
@@ -206,13 +215,7 @@ export const Products = ({ products }: Props) => {
         required: true,
         defaultValue: editingProduct?.description,
       },
-      {
-        name: "image_url",
-        label: "URL de Imagen",
-        type: "text",
-        required: true,
-        defaultValue: editingProduct?.image_url,
-      },
+
       {
         name: "price",
         label: "Precio",
@@ -220,6 +223,7 @@ export const Products = ({ products }: Props) => {
         required: true,
         defaultValue: editingProduct?.price,
       },
+
       {
         name: "sku",
         label: "SKU",
@@ -233,6 +237,13 @@ export const Products = ({ products }: Props) => {
         type: "number",
         required: true,
         defaultValue: 0,
+      },
+      {
+        name: "image_url",
+        label: "Imagen del Producto",
+        type: "image",
+        required: true,
+        defaultValue: editingProduct?.image_url,
       },
     ]);
   }, [editingProduct]);

@@ -37,15 +37,20 @@ export function ProductCard({
       onDelete(product.id);
     }
   };
-
+  console.log(productApi);
   return (
     product && (
       <Card className="w-full max-w-40 max-w- bg-white shadow-md !rounded-xl min-h-44 flex justify-beween flex-col relative overflow-hidden">
         <div className="h-28 rounded-b-xl overflow-hidden shadow-sm">
           <Image
-            // src={imageError ? imgError : productApi.imageUrl}
-            src={imgError}
+            src={
+              imageError || !/^https?:\/\//.test(productApi.image_url)
+                ? imgError
+                : productApi.image_url
+            }
             alt={product.name}
+            width={200}
+            height={200}
             onError={() => setImageError(true)}
             className="object-cover w-full h-full"
           />

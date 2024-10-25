@@ -13,14 +13,9 @@ export default function DashboardSales() {
 
   return (
     <Suspense fallback={<SalesLoadUi />}>
-      {salesAndProductsPromise
-        .then(([sales, products]) => (
-          <Sales sales={sales} products={products} />
-        ))
-        .catch((error) => {
-          handleUnauthorizedError(error);
-          return null;
-        })}
+      {salesAndProductsPromise.then(([sales, products]) => (
+        <Sales sales={sales} products={products} />
+      ))}
     </Suspense>
   );
 }

@@ -1,16 +1,16 @@
 "use client";
+import React, { useEffect } from "react";
 import { SubmitHandler, FieldValues } from "react-hook-form";
 import { Button } from "./Button";
 import { Option } from "@/app/models/Option";
-import { CustomSelect } from ".";
-import { useEffect } from "react";
+import { CustomSelect, ImageUploader } from ".";
 
 interface Field {
   name: string;
   label: string;
   type: string;
   required?: boolean;
-  defaultValue?: any; // Cambiar a any para mayor flexibilidad
+  defaultValue?: any;
   options?: Option[];
   isSearchable?: boolean;
   onChange?: (selectedOption: Option) => void;
@@ -40,8 +40,8 @@ export function ReusableForm<T extends FieldValues>({
     handleSubmit,
     setValue,
     formState: { errors, isValid },
-    getValues,
   } = control;
+
   useEffect(() => {
     fields.forEach((field) => {
       if (field.defaultValue !== undefined) {
@@ -49,38 +49,17 @@ export function ReusableForm<T extends FieldValues>({
       }
     });
   }, [fields, setValue]);
-
-  const handleNumberInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value, id } = event.target;
-    if (/^[0-9]*[.,]?[0-9]*$/.test(value) || value === "") {
-      setValue(id as any, value as any);
-    }
-  };
-
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (
-      !/[0-9.,]/.test(event.key) &&
-      !["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab"].includes(
-        event.key
-      )
-    ) {
-      event.preventDefault();
-    }
-  };
-
-  const maxRowsPerColumn = 5;
-  const numColumns = Math.ceil(fields.length / maxRowsPerColumn);
-  const columns = Array.from({ length: numColumns }, (_, colIndex) =>
-    fields.slice(colIndex * maxRowsPerColumn, (colIndex + 1) * maxRowsPerColumn)
-  );
+  console.log(control.getValues());
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="grid gap-4"
-      style={{ gridTemplateColumns: `repeat(${numColumns}, 1fr)` }}
+      style={{
+        gridTemplateColumns: `repeat(${Math.ceil(fields.length / 5)}, 1fr)`,
+      }}
     >
-      {columns.flat().map((field) => (
+      {fields.map((field) => (
         <div key={field.name} className="mb-4">
           <label
             htmlFor={field.name}
@@ -90,8 +69,8 @@ export function ReusableForm<T extends FieldValues>({
           </label>
           {field.type === "textarea" ? (
             <textarea
-              defaultValue={field.defaultValue}
               id={field.name}
+              defaultValue={field.defaultValue}
               {...register(field.name as any, { required: field.required })}
               className="mt-1 block w-full border border-gray-300 rounded-md p-2"
             />
@@ -108,15 +87,20 @@ export function ReusableForm<T extends FieldValues>({
                 setValue(field.name as any, selectedOption?.value as any);
               }}
             />
+          ) : field.type === "image" ? (
+            <ImageUploader
+              fieldName={field.name}
+              register={register}
+              setValue={setValue}
+              required={false}
+              imageProduct={field.defaultValue}
+            />
           ) : (
             <input
               id={field.name}
-              type={field.type === "number" ? "text" : field.type}
+              type={field.type}
               {...register(field.name as any, { required: field.required })}
               className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-              onChange={field.type === "number" ? handleNumberInput : undefined}
-              onKeyDown={field.type === "number" ? handleKeyDown : undefined}
-              inputMode={field.type === "number" ? "decimal" : undefined}
               defaultValue={field.defaultValue}
             />
           )}
@@ -136,11 +120,10 @@ export function ReusableForm<T extends FieldValues>({
         >
           Cancelar
         </Button>
-
         <Button
           type="submit"
           isLoading={isLoading}
-          disabled={!isValid || !isFormValid}
+          // disabled={!isValid || !isFormValid}
         >
           {submitButtonText}
         </Button>
