@@ -70,7 +70,7 @@ export const Sell = ({ products }: Props) => {
       <Header />
       {isClient && (
         <div className="flex h-screen-header">
-          <div className="w-3/4 flex flex-wrap gap-4 p-4 overflow-scroll">
+          <div className="w-3/4 flex flex-wrap gap-4 p-4 overflow-scroll justify-start">
             {products.map((product) => (
               <div
                 key={product.id}
@@ -82,7 +82,7 @@ export const Sell = ({ products }: Props) => {
                     quantity: 1,
                   })
                 }
-                className="cursor-pointer w-40 h28 flex"
+                className="cursor-pointer w-40"
               >
                 <ProductCard product={product} />
               </div>

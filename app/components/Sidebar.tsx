@@ -2,10 +2,11 @@
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { FiLogOut, FiChevronDown, FiChevronRight } from "react-icons/fi";
-import { salesMenu, productsMenu, staffMenu, suppliersMenu } from "@/app/menus";
+import { salesMenu, productsMenu, suppliersMenu, usersMenu } from "@/app/menus";
 import { homeMenu } from "@/app/menus/homeMenu";
-import { logoutUser } from "@/app/services/auth";
 import Link from "next/link";
+import { logoutUser } from "@/app/services/auth/login";
+import { MenuItem } from "../models/MenuItem";
 
 export function Sidebar() {
   const router = useRouter();
@@ -18,8 +19,8 @@ export function Sidebar() {
       setExpandedSection("Productos");
     } else if (pathname.startsWith("/branches")) {
       setExpandedSection("Sucursales");
-    } else if (pathname.startsWith("/staff")) {
-      setExpandedSection("Staff");
+    } else if (pathname.startsWith("/users")) {
+      setExpandedSection("users");
     } else if (pathname.startsWith("/proveedores")) {
       setExpandedSection("Proveedores");
     } else {
@@ -35,8 +36,8 @@ export function Sidebar() {
         return productsMenu;
       case "Sucursales":
         return [];
-      case "Staff":
-        return staffMenu;
+      case "users":
+        return usersMenu;
       case "Proveedores":
         return suppliersMenu;
       default:
@@ -64,7 +65,7 @@ export function Sidebar() {
         {/* Always show homeMenu items */}
         {homeMenu.map((item, index) => {
           const isExpanded = expandedSection === item.title;
-          const subMenuItems = getSubMenuItems(item.title);
+          const subMenuItems: MenuItem[] = getSubMenuItems(item.title);
 
           return (
             <div key={index}>
@@ -89,7 +90,7 @@ export function Sidebar() {
 
               {isExpanded && subMenuItems.length > 0 && (
                 <div className="ml-6 mt-1">
-                  {subMenuItems.map((subItem, subIndex) => (
+                  {subMenuItems.map((subItem, subIndex: number) => (
                     <Link
                       href={subItem.link}
                       key={subIndex}

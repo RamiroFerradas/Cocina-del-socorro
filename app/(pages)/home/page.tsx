@@ -40,7 +40,7 @@ export default function Home() {
       description: "Gestión de personal.",
       category: "RECURSOS HUMANOS",
       icon: FiUsers,
-      link: "/staff",
+      link: "/users",
       color: "yellow-500",
     },
     {

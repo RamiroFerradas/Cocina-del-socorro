@@ -19,7 +19,7 @@ export const branchesMenu = [
   {
     title: "Personal",
     icon: FiUsers,
-    link: "/branches/staff",
+    link: "/branches/users",
   },
   {
     title: "Configuración",

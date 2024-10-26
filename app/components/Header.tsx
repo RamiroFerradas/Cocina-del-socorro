@@ -11,7 +11,7 @@ const translations: Record<string, string> = {
   sales: "Ventas",
   products: "Productos",
   branches: "Sucursales",
-  staff: "Personal",
+  users: "Personal",
   suppliers: "Proveedores",
 };
 

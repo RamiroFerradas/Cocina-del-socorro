@@ -31,13 +31,6 @@ export const Branches = ({ branches }: Props) => {
   const control = useForm<Branch>({
     mode: "onChange",
   });
-  const {
-    register,
-    // handleSubmit,
-    setValue,
-    formState: { errors, isValid },
-    getValues,
-  } = control;
   useEffect(() => {
     setIsClient(true);
   }, []);

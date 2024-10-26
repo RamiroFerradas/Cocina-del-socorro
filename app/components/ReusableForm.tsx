@@ -49,7 +49,6 @@ export function ReusableForm<T extends FieldValues>({
       }
     });
   }, [fields, setValue]);
-  console.log(control.getValues());
 
   return (
     <form

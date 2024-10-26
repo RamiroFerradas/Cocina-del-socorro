@@ -4,8 +4,8 @@ import {
   FiUser,
   FiSettings,
   FiDollarSign,
-  FiHome,
 } from "react-icons/fi";
+
 
 export const salesMenu = [
   {

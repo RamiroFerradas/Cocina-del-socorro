@@ -1,9 +1,9 @@
 "use server";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import api from "../lib/axios";
-import { deleteUserCookie } from "./cookies/delete";
 import nookies from "nookies";
+import { deleteUserCookie } from "@/app/services/cookies/delete";
+import api from "@/app/lib/axios";
 
 export const loginUser = async (username: string, password: string) => {
   try {

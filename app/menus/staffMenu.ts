@@ -4,34 +4,32 @@ import {
   FiUserCheck,
   FiUserX,
   FiSettings,
-  FiHome,
 } from "react-icons/fi";
 
-export const staffMenu = [
-
+export const usersMenu = [
   {
     title: "Empleados",
     icon: FiUsers,
-    link: "/staff/empleados",
+    link: "/users/empleados",
   },
   {
     title: "Contrataciones",
     icon: FiUserPlus,
-    link: "/staff/contrataciones",
+    link: "/users/contrataciones",
   },
   {
     title: "Asistencias",
     icon: FiUserCheck,
-    link: "/staff/asistencias",
+    link: "/users/asistencias",
   },
   {
     title: "Desvinculaciones",
     icon: FiUserX,
-    link: "/staff/desvinculaciones",
+    link: "/users/desvinculaciones",
   },
   {
     title: "Configuración",
     icon: FiSettings,
-    link: "/staff/configuracion",
+    link: "/users/configuracion",
   },
 ];

@@ -31,7 +31,7 @@ export const homeMenu = [
   {
     title: "Personal",
     icon: FiUsers,
-    link: "/staff",
+    link: "/users",
   },
   {
     title: "Proveedores",

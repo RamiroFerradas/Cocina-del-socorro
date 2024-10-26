@@ -37,44 +37,44 @@ export function ProductCard({
       onDelete(product.id);
     }
   };
-  console.log(productApi);
-  return (
-    product && (
-      <Card className="w-full max-w-40 max-w- bg-white shadow-md !rounded-xl min-h-44 flex justify-beween flex-col relative overflow-hidden">
-        <div className="h-28 rounded-b-xl overflow-hidden shadow-sm">
-          <Image
-            src={
-              imageError || !/^https?:\/\//.test(productApi.image_url)
-                ? imgError
-                : productApi.image_url
-            }
-            alt={product.name}
-            width={200}
-            height={200}
-            onError={() => setImageError(true)}
-            className="object-cover w-full h-full"
-          />
-        </div>
-        <CardContent className="flex-grow flex flex-col justify-between p-2">
-          <p className="flex flex-col">
-            <span className="capitalize text-sm">{product.name}</span>
-            <span className="capitalize text-xs">{product.brand}</span>
-          </p>
-          <span className="mt-4 text-xs">${product.price}</span>
-        </CardContent>
-        <div className="absolute top-0 right-0 flex flex-col items-center justify-center">
-          {onEdit && (
-            <IconButton onClick={handleEdit}>
-              <EditIcon fontSize="small" />
-            </IconButton>
-          )}
-          {onDelete && (
-            <IconButton onClick={handleDelete} color="error">
-              <DeleteIcon fontSize="small" />
-            </IconButton>
-          )}
-        </div>
-      </Card>
-    )
-  );
+
+   return (
+     product && (
+       <Card className="w-full max-w-40 max-w- bg-white shadow-md !rounded-xl min-h-44 flex justify-beween flex-col relative overflow-hidden">
+         <div className="h-28 rounded-b-xl overflow-hidden shadow-sm">
+           <Image
+             src={
+               imageError || !/^https?:\/\//.test(productApi.image_url)
+                 ? imgError
+                 : productApi.image_url
+             }
+             alt={product.name}
+             width={200}
+             height={200}
+             onError={() => setImageError(true)}
+             className="object-cover w-full h-full"
+           />
+         </div>
+         <CardContent className="flex-grow flex flex-col justify-between p-2">
+           <p className="flex flex-col">
+             <span className="capitalize text-sm">{product.name}</span>
+             <span className="capitalize text-xs">{product.brand}</span>
+           </p>
+           <span className="mt-4 text-xs">${product.price}</span>
+         </CardContent>
+         <div className="absolute top-0 right-0 flex flex-col items-center justify-center">
+           {onEdit && (
+             <IconButton onClick={handleEdit}>
+               <EditIcon fontSize="small" />
+             </IconButton>
+           )}
+           {onDelete && (
+             <IconButton onClick={handleDelete} color="error">
+               <DeleteIcon fontSize="small" />
+             </IconButton>
+           )}
+         </div>
+       </Card>
+     )
+   );
 }
