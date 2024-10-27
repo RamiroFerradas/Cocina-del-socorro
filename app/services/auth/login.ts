@@ -1,9 +1,11 @@
 "use server";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { deleteUserCookie } from "@/app/services/cookies/delete";
 import api from "@/app/lib/axios";
 
 export const loginUser = async (username: string, password: string) => {
-  const maxRetries = 3;
+  const maxRetries = 5;
   const retryDelay = 2000; // Tiempo de espera entre reintentos en milisegundos
 
   const params = new URLSearchParams({
@@ -32,6 +34,7 @@ export const loginUser = async (username: string, password: string) => {
   try {
     const response = await retryRequest(maxRetries);
     const { access_token } = response.data;
+
     cookies().set({
       name: "access_token",
       value: access_token,
@@ -48,4 +51,11 @@ export const loginUser = async (username: string, password: string) => {
         : error.response?.data?.detail || "Error desconocido."
     );
   }
+};
+
+export const logoutUser = async () => {
+  "use server";
+
+  await deleteUserCookie();
+  redirect("/login");
 };
