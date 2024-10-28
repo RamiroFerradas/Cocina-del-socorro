@@ -8,7 +8,7 @@ export interface Sale {
 }
 
 export interface SaleItem {
-  id: number;
+  product_id: number;
   product_name: string;
   quantity: number;
   price: number;

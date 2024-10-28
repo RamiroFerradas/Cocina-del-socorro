@@ -73,10 +73,10 @@ export const Sell = ({ products }: Props) => {
           <div className="w-3/4 flex flex-wrap gap-4 p-4 overflow-scroll justify-start">
             {products.map((product) => (
               <div
-                key={product.id}
+                key={product.product_id}
                 onClick={() =>
                   addToCart({
-                    id: product.id,
+                    product_id: product.product_id,
                     product_name: product.name,
                     price: product.price,
                     quantity: 1,
@@ -98,7 +98,7 @@ export const Sell = ({ products }: Props) => {
                   <ul>
                     {cartItems.map((item) => (
                       <li
-                        key={item.id}
+                        key={item.product_id}
                         className="flex justify-between items-center mb-2"
                       >
                         <div>
@@ -113,8 +113,11 @@ export const Sell = ({ products }: Props) => {
                             onChange={(e) => {
                               const newQuantity = parseInt(e.target.value, 10);
                               if (!isNaN(newQuantity) && newQuantity > 0) {
-                                const { id, ...rest } = item;
-                                updateQuantity({ id, ...rest }, newQuantity);
+                                const { product_id, ...rest } = item;
+                                updateQuantity(
+                                  { product_id, ...rest },
+                                  newQuantity
+                                );
                               }
                             }}
                             className="w-16 text-center border border-gray-300 rounded"

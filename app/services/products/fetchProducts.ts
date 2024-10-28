@@ -10,7 +10,14 @@ function delay(ms: number) {
 export async function fetchAllProducts(): Promise<Product[]> {
   try {
     const response = await api("/products");
-    return response.data;
+
+    // Mapear productos para reemplazar id por product_id
+    const products = response.data.map((product: any) => ({
+      ...product,
+      product_id: product.id,
+    }));
+
+    return products;
   } catch (error: any) {
     console.error(error);
     handleUnauthorizedError(error);

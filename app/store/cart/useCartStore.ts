@@ -6,7 +6,7 @@ interface CartStore {
   addToCart: (product: SaleItem) => void;
   removeFromCart: (product: SaleItem) => void;
   updateQuantity: (product: SaleItem, quantity: number) => void;
-  clearCart: () => void; // Nueva función para limpiar el carrito
+  clearCart: () => void;
   calculateTotal: () => number;
 }
 
@@ -16,12 +16,12 @@ export const useCartStore = create<CartStore>((set, get) => ({
   addToCart: (product) =>
     set((state) => {
       const existingItem = state.cartItems.find(
-        (item) => item.id === product.id
+        (item) => item.product_id === product.product_id
       );
       if (existingItem) {
         return {
           cartItems: state.cartItems.map((item) =>
-            item.id === product.id
+            item.product_id === product.product_id
               ? { ...item, quantity: item.quantity + 1 }
               : item
           ),
@@ -31,7 +31,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
         cartItems: [
           ...state.cartItems,
           {
-            id: product.id,
+            product_id: product.product_id,
             product_name: product.product_name,
             quantity: 1,
             price: product.price,
@@ -43,19 +43,21 @@ export const useCartStore = create<CartStore>((set, get) => ({
   removeFromCart: (product) =>
     set((state) => {
       const existingItem = state.cartItems.find(
-        (item) => item.id === product.id
+        (item) => item.product_id === product.product_id
       );
       if (existingItem && existingItem.quantity > 1) {
         return {
           cartItems: state.cartItems.map((item) =>
-            item.id === product.id
+            item.product_id === product.product_id
               ? { ...item, quantity: item.quantity - 1 }
               : item
           ),
         };
       }
       return {
-        cartItems: state.cartItems.filter((item) => item.id !== product.id),
+        cartItems: state.cartItems.filter(
+          (item) => item.product_id !== product.product_id
+        ),
       };
     }),
 
@@ -64,7 +66,9 @@ export const useCartStore = create<CartStore>((set, get) => ({
       if (quantity > 0) {
         return {
           cartItems: state.cartItems.map((item) =>
-            item.id === product.id ? { ...item, quantity } : item
+            item.product_id === product.product_id
+              ? { ...item, quantity }
+              : item
           ),
         };
       }
@@ -72,6 +76,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
     }),
 
   clearCart: () => set({ cartItems: [] }),
+
   calculateTotal: (): number => {
     return parseFloat(
       get()

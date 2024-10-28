@@ -14,6 +14,7 @@ export async function saveSale({ data, pathname = "/sales" }: SaleAction) {
     ...sale,
     price: Number(sale.price) || 0,
   }));
+  console.log(data);
   try {
     const response = await api.post(`/sales`, data);
     revalidatePath(pathname);
