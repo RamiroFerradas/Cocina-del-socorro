@@ -27,11 +27,10 @@ export async function saveProduct({
     } else {
       response = await api.post(`/products`, dataWithoutQuantity);
     }
-    const productId = data.product_id;
 
     // Actualizar el stock
     await api.post(`/inventory`, {
-      product_id: productId,
+      product_id: data.product_id,
       quantity: quantity,
     });
 

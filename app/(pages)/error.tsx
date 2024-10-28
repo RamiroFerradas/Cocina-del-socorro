@@ -1,9 +1,22 @@
 "use client";
+
+import { useEffect } from "react";
+import { handleUnauthorizedError } from "../lib/handleUnauthorizedError";
+import { AxiosError } from "axios";
+
 type ErrorBoundaryProps = {
   error: Error;
 };
 
 const ErrorBoundary = ({ error }: ErrorBoundaryProps) => {
+  useEffect(() => {
+    // Verifica si el error es de tipo AxiosError para llamar a handleUnauthorizedError
+    if ((error as AxiosError).isAxiosError) {
+      handleUnauthorizedError(error as AxiosError);
+    } else {
+      console.error("Error:", error.message);
+    }
+  }, [error]);
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100 flex-col pb-16 gap-10">
       <div className="text-center">
