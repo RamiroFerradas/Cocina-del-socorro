@@ -117,7 +117,7 @@ export const Products = ({ products }: Props) => {
       await saveProduct({
         data: {
           ...data,
-          id: editingProduct?.id || 0,
+          product_id: editingProduct?.product_id || 0,
           image_url: imageUrl.url || "",
         },
         isEdit: !!editingProduct,

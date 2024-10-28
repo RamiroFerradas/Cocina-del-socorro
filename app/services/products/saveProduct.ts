@@ -21,13 +21,13 @@ export async function saveProduct({
 
     // Guardar o actualizar el producto
     if (isEdit) {
-      response = await api.put(`/products/${data.id}`, {
+      response = await api.put(`/products/${data.product_id}`, {
         ...dataWithoutQuantity,
       });
     } else {
       response = await api.post(`/products`, dataWithoutQuantity);
     }
-    const productId = data.id;
+    const productId = data.product_id;
 
     // Actualizar el stock
     await api.post(`/inventory`, {

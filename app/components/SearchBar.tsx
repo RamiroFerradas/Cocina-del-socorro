@@ -90,7 +90,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
         <div className="absolute mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg z-40">
           {filteredItems.map((item) => (
             <div
-              key={item.id}
+              key={item.product_id}
               className="p-2 cursor-pointer hover:bg-gray-100"
               onClick={() => handleItemClick(item)}
             >

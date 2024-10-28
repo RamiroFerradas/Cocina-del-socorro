@@ -34,7 +34,7 @@ export function ProductCard({
 
   const handleDelete = () => {
     if (product && onDelete) {
-      onDelete(product.id);
+      onDelete(product.product_id);
     }
   };
 
