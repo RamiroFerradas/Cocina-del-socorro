@@ -16,6 +16,10 @@ export async function saveProduct({
   isEdit = false,
 }: ProductAction & { quantity?: number }) {
   try {
+    const dataToSend = {
+      ...data,
+      stock: Number(data.stock),
+    };
     let response;
 
     // Guardar o actualizar el producto
@@ -24,7 +28,7 @@ export async function saveProduct({
         ...data,
       });
     } else {
-      response = await api.post(`/products`, data);
+      response = await api.post(`/products`, dataToSend);
     }
 
     revalidatePath(pathname);

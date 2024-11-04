@@ -98,9 +98,10 @@ export function ReusableForm<T extends FieldValues>({
             <input
               id={field.name}
               type={field.type}
-              {...register(field.name as any, { required: field.required })}
+              {...register(field.name, { required: field.required })}
               className="mt-1 block w-full border border-gray-300 rounded-md p-2"
               defaultValue={field.defaultValue}
+              step={field.type === "number" ? "0.01" : undefined}
             />
           )}
           {errors[field.name] && (

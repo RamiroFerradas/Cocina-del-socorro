@@ -20,12 +20,14 @@ export async function saveSale({
     ...sale,
     price: Number(sale.price) || 0,
   }));
+  const body = {
+    sale_items: saleItems,
+    payment_method: Number(paymentMethod),
+  };
 
   try {
     const response = await api.post(`/sales`, {
-      branch: "string",
-      sale_items: saleItems,
-      payment_method: String(paymentMethod),
+      body,
     });
     revalidatePath(pathname);
     return response.data;

@@ -7,5 +7,5 @@ export interface Product {
   sku: string;
   brand: string;
   image_url: string;
-  quantity: number;
+  stock: number;
 }

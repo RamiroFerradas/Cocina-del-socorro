@@ -86,7 +86,7 @@ export const Sell = ({ products }: Props) => {
       <Header />
       {isClient && (
         <div className="flex h-screen-header">
-          <div className="w-3/4 flex flex-wrap gap-4 p-4 overflow-scroll justify-start">
+          <div className="container mx-auto py-8 flex flex-wrap gap-4 p-4">
             {products.map((product) => (
               <div
                 key={product.product_id}
