@@ -232,7 +232,7 @@ export const Products = ({ products }: Props) => {
         defaultValue: editingProduct?.sku,
       },
       {
-        name: "quantity",
+        name: "stock",
         label: "Stock",
         type: "number",
         required: true,

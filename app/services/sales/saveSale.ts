@@ -2,21 +2,31 @@
 import { revalidatePath } from "next/cache";
 import api from "@/app/lib/axios";
 import { SaleItem } from "@/app/models/Sale";
+import { PaymentMethod } from "@/app/models/PaymentMethod";
 
 type SaleAction = {
-  data: SaleItem[];
+  items: SaleItem[];
+  paymentMethod: PaymentMethod;
   isEdit?: boolean;
   pathname?: string;
 };
 
-export async function saveSale({ data, pathname = "/sales" }: SaleAction) {
-  data = data.map((sale) => ({
+export async function saveSale({
+  items,
+  paymentMethod,
+  pathname = "/sales",
+}: SaleAction) {
+  const saleItems = items.map((sale) => ({
     ...sale,
     price: Number(sale.price) || 0,
   }));
 
   try {
-    const response = await api.post(`/sales`, data);
+    const response = await api.post(`/sales`, {
+      branch: "string",
+      sale_items: saleItems,
+      payment_method: String(paymentMethod),
+    });
     revalidatePath(pathname);
     return response.data;
   } catch (error: any) {

@@ -2,6 +2,7 @@
 import { ProductCard } from "@/app/(pages)/products/components";
 import {
   Button,
+  CustomSelect,
   Header,
   Toast,
   toastErrorStyles,
@@ -13,6 +14,8 @@ import { useCartStore } from "@/app/store/cart/useCartStore";
 import { saveSale } from "@/app/services/sales/saveSale";
 import { toast } from "react-toastify";
 import { CircularProgress } from "@mui/material";
+import { usePathname } from "next/navigation";
+import { PaymentMethod, paymentMethodLabels } from "@/app/models/PaymentMethod";
 
 type Props = {
   products: Product[];
@@ -21,6 +24,10 @@ type Props = {
 export const Sell = ({ products }: Props) => {
   const [isClient, setIsClient] = useState(false);
   const [isLoadingButton, setIsLoadingButton] = useState(false);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] =
+    useState<PaymentMethod>(PaymentMethod.Efectivo);
+  const pathname = usePathname();
+
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -29,9 +36,18 @@ export const Sell = ({ products }: Props) => {
     useCartStore();
 
   const handleSale = async () => {
+    if (!selectedPaymentMethod) {
+      toast.error("Seleccione una forma de pago.");
+      return;
+    }
+
     setIsLoadingButton(true);
     try {
-      await saveSale({ data: cartItems, pathname: "/ventas" });
+      await saveSale({
+        items: cartItems,
+        paymentMethod: selectedPaymentMethod,
+        pathname,
+      });
       clearCart();
       toast(
         <Toast
@@ -91,7 +107,7 @@ export const Sell = ({ products }: Props) => {
           <div className="w-1/4 bg-white flex flex-col justify-between p-2">
             <div className="">
               <h2 className="text-xl font-bold mb-4">Items</h2>
-              <div className="h-[calc(100vh-14rem)] overflow-auto">
+              <div className="h-[calc(100vh-16rem)] overflow-auto">
                 {cartItems.length === 0 ? (
                   <p>No hay productos seleccionados</p>
                 ) : (
@@ -130,8 +146,27 @@ export const Sell = ({ products }: Props) => {
               </div>
               <div className="mt-4">
                 <p className="text-lg font-bold">Total: ${calculateTotal()}</p>
+
+                <CustomSelect
+                  options={Object.keys(PaymentMethod)
+                    .filter((key) => !isNaN(Number(key)))
+                    .map((key) => ({
+                      key: key,
+                      value: String(
+                        PaymentMethod[key as keyof typeof PaymentMethod]
+                      ),
+                    }))}
+                  selectedOption={String(selectedPaymentMethod)}
+                  onChange={(option) => {
+                    setSelectedPaymentMethod(
+                      Number(option.key) as PaymentMethod
+                    );
+                  }}
+                  placeholder="Seleccione una forma de pago"
+                />
+
                 <Button
-                  className="w-full h-10"
+                  className="w-full h-10 mt-4"
                   onClick={handleSale}
                   disabled={isLoadingButton}
                 >

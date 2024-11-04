@@ -16,23 +16,16 @@ export async function saveProduct({
   isEdit = false,
 }: ProductAction & { quantity?: number }) {
   try {
-    const { quantity, ...dataWithoutQuantity } = data;
     let response;
 
     // Guardar o actualizar el producto
     if (isEdit) {
       response = await api.put(`/products/${data.product_id}`, {
-        ...dataWithoutQuantity,
+        ...data,
       });
     } else {
-      response = await api.post(`/products`, dataWithoutQuantity);
+      response = await api.post(`/products`, data);
     }
-
-    // Actualizar el stock
-    await api.post(`/inventory`, {
-      product_id: data.product_id,
-      quantity: quantity,
-    });
 
     revalidatePath(pathname);
     return response.data;
