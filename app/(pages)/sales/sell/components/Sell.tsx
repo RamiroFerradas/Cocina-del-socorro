@@ -44,7 +44,7 @@ export const Sell = ({ products }: Props) => {
     setIsLoadingButton(true);
     try {
       await saveSale({
-        items: cartItems,
+        sale_items: cartItems,
         paymentMethod: selectedPaymentMethod,
         pathname,
       });

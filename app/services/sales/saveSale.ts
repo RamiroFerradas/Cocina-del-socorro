@@ -5,18 +5,18 @@ import { SaleItem } from "@/app/models/Sale";
 import { PaymentMethod } from "@/app/models/PaymentMethod";
 
 type SaleAction = {
-  items: SaleItem[];
+  sale_items: SaleItem[];
   paymentMethod: PaymentMethod;
   isEdit?: boolean;
   pathname?: string;
 };
 
 export async function saveSale({
-  items,
+  sale_items,
   paymentMethod,
   pathname = "/sales",
 }: SaleAction) {
-  const saleItems = items.map((sale) => ({
+  const saleItems = sale_items.map((sale) => ({
     ...sale,
     price: Number(sale.price) || 0,
   }));
@@ -24,7 +24,6 @@ export async function saveSale({
     sale_items: saleItems,
     payment_method: Number(paymentMethod),
   };
-
   try {
     const response = await api.post(`/sales`, {
       body,
