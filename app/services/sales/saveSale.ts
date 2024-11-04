@@ -25,9 +25,7 @@ export async function saveSale({
     payment_method: Number(paymentMethod),
   };
   try {
-    const response = await api.post(`/sales`, {
-      body,
-    });
+    const response = await api.post(`/sales`, body);
     revalidatePath(pathname);
     return response.data;
   } catch (error: any) {
