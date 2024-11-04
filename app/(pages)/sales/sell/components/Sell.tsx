@@ -15,7 +15,7 @@ import { saveSale } from "@/app/services/sales/saveSale";
 import { toast } from "react-toastify";
 import { CircularProgress } from "@mui/material";
 import { usePathname } from "next/navigation";
-import { PaymentMethod, paymentMethodLabels } from "@/app/models/PaymentMethod";
+import { PaymentMethod } from "@/app/models/PaymentMethod";
 
 type Props = {
   products: Product[];

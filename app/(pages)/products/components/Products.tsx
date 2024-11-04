@@ -50,7 +50,7 @@ export const Products = ({ products }: Props) => {
     mode: "onChange",
   });
   const pathname = usePathname();
-
+  console.log(editingProduct);
   useEffect(() => {
     setFilteredProducts(products);
   }, [products]);
@@ -236,14 +236,16 @@ export const Products = ({ products }: Props) => {
         label: "Stock",
         type: "number",
         required: true,
-        defaultValue: 0,
+        defaultValue: editingProduct?.stock,
       },
       {
         name: "image_url",
         label: "Imagen del Producto",
         type: "image",
         required: true,
-        defaultValue: editingProduct?.image_url,
+        defaultValue: editingProduct?.image_url.includes("example")
+          ? ""
+          : editingProduct?.image_url,
       },
     ]);
   }, [editingProduct]);
