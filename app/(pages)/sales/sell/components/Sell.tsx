@@ -98,7 +98,7 @@ export const Sell = ({ products }: Props) => {
                     quantity: 1,
                   })
                 }
-                className="cursor-pointer w-40"
+                className="cursor-pointer w-40 flex"
               >
                 <ProductCard product={product} />
               </div>
