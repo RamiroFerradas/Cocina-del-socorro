@@ -20,21 +20,17 @@ export const PaymentsLoadUi = (props: Props) => {
         <Table aria-label="payments loading skeleton table">
           <TableHead>
             <TableRow>
-              <TableCell>Sucursal</TableCell>
-              <TableCell>ID</TableCell>
-              <TableCell>Monto</TableCell>
-              <TableCell>ID de Sesión</TableCell>
-              <TableCell>Fecha de Pago</TableCell>
-              <TableCell>Usuario</TableCell>
-              <TableCell>Descripción</TableCell>
+              <TableCell className="font-bold">ID</TableCell>
+              <TableCell className="font-bold">Monto</TableCell>
+              <TableCell className="font-bold">ID de Sesión</TableCell>
+              <TableCell className="font-bold">Fecha de Pago</TableCell>
+              <TableCell className="font-bold">Usuario</TableCell>
+              <TableCell className="font-bold">Descripción</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {Array.from({ length: 5 }).map((_, index) => (
               <TableRow key={index}>
-                <TableCell>
-                  <Skeleton variant="text" width={100} />
-                </TableCell>
                 <TableCell>
                   <Skeleton variant="text" width={50} />
                 </TableCell>

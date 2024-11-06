@@ -97,7 +97,6 @@ export const Payments = ({ payments }: Props) => {
           <Table aria-label="payments table">
             <TableHead>
               <TableRow>
-                <TableCell className="font-bold">Sucursal</TableCell>
                 <TableCell className="font-bold">ID</TableCell>
                 <TableCell className="font-bold">Monto</TableCell>
                 <TableCell className="font-bold">ID de Sesión</TableCell>
@@ -109,7 +108,6 @@ export const Payments = ({ payments }: Props) => {
             <TableBody>
               {payments.map((payment) => (
                 <TableRow key={payment.id}>
-                  <TableCell>{payment.branch}</TableCell>
                   <TableCell>{payment.id}</TableCell>
                   <TableCell>{payment.amount}</TableCell>
                   <TableCell>{payment.session_id}</TableCell>

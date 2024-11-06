@@ -44,9 +44,7 @@ export const SessionsLoadUi = () => {
                 <TableCell>
                   <Skeleton variant="text" width={80} />
                 </TableCell>
-                <TableCell>
-                  <Skeleton variant="text" width={100} />
-                </TableCell>
+
                 <TableCell>
                   <Skeleton variant="text" width={120} />
                 </TableCell>

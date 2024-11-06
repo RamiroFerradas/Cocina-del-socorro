@@ -6,10 +6,12 @@ export async function fetchAllSessions(): Promise<Session[]> {
   try {
     const response = await api("/sessions");
 
-    // Ordenar: primero las sesiones activas
+    // Ordenar por `session_created` en orden ascendente
     const sessions = response.data.sort((a: Session, b: Session) => {
-      // Si `active` es `true`, restar `-1` para que aparezca antes
-      return a.active === b.active ? 0 : a.active ? -1 : 1;
+      return (
+        new Date(b.session_created).getTime() -
+        new Date(a.session_created).getTime()
+      );
     });
 
     return sessions;

@@ -15,7 +15,7 @@ export async function newSession({
   try {
     let response = await api.post(`/sessions`, data);
 
-    revalidatePath(pathname);
+    revalidatePath("sales");
   } catch (error: any) {
     console.error(
       "Error saving Session:",

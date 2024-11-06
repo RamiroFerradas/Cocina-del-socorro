@@ -167,7 +167,6 @@ export const Sessions = ({ sessions }: Props) => {
                 <TableCell className="font-bold">Fecha de Creación</TableCell>
                 <TableCell className="font-bold">Saldo Inicial</TableCell>
                 <TableCell className="font-bold">Saldo Total</TableCell>
-                <TableCell className="font-bold">Sucursal</TableCell>
                 <TableCell className="font-bold">Fecha de Cierre</TableCell>
                 <TableCell className="font-bold">ID</TableCell>
                 <TableCell className="font-bold">Usuario</TableCell>
@@ -194,7 +193,6 @@ export const Sessions = ({ sessions }: Props) => {
                   </TableCell>
                   <TableCell>{session.opening_balance}</TableCell>
                   <TableCell>{session.total_balance}</TableCell>
-                  <TableCell>{session.branch}</TableCell>
                   <TableCell>
                     {session.session_ended
                       ? new Date(session.session_ended).toLocaleString()
@@ -225,11 +223,11 @@ export const Sessions = ({ sessions }: Props) => {
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title={"Agregar Pago"}
+        title={"Abrir turno"}
       >
         <ReusableForm
           fields={sessionFields}
-          onSubmit={() => handleOpenConfirmationModal("open", -1)} // Modificado para abrir confirmación en lugar de ejecutar inmediatamente
+          onSubmit={() => handleOpenConfirmationModal("open", -1)}
           onClose={() => setIsModalOpen(false)}
           isLoading={isLoadingButton}
           control={control}
@@ -258,5 +256,6 @@ const sessionFields = [
     label: "Balance inicial",
     type: "number",
     required: true,
+    defaultValue: 0,
   },
 ];
