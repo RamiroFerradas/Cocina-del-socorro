@@ -8,6 +8,7 @@ interface ConfirmationModalProps {
   title: string;
   message: string;
   isLoading?: boolean;
+  confirmButtonColor?: string; // Propiedad opcional para el color del botón
 }
 
 export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
@@ -17,6 +18,7 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   title,
   message,
   isLoading,
+  confirmButtonColor = "bg-red-500",
 }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={title}>
@@ -25,7 +27,7 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
         <div className="flex justify-end gap-2">
           <Button
             onClick={onConfirm}
-            className=" bg-red-500 text-white rounded-md"
+            className={`text-white rounded-md ${confirmButtonColor}`}
             isLoading={isLoading}
           >
             Confirmar

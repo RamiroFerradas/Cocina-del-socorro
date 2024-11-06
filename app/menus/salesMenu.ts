@@ -6,8 +6,12 @@ import {
   FiDollarSign,
 } from "react-icons/fi";
 
-
 export const salesMenu = [
+  {
+    title: "Turnos",
+    icon: FiSettings,
+    link: "/sales/sessions",
+  },
   {
     title: "Dashboard",
     icon: FiBarChart,
@@ -19,6 +23,11 @@ export const salesMenu = [
     link: "/sales/sell",
   },
   {
+    title: "Pagos",
+    icon: FiDollarSign,
+    link: "/sales/payments",
+  },
+  {
     title: "Facturas",
     icon: FiFileText,
     link: "/sales/invoices",
@@ -27,15 +36,5 @@ export const salesMenu = [
     title: "Clientes",
     icon: FiUser,
     link: "/sales/customers",
-  },
-  {
-    title: "Pagos",
-    icon: FiDollarSign,
-    link: "/sales/payments",
-  },
-  {
-    title: "Configuración",
-    icon: FiSettings,
-    link: "/sales/settings",
   },
 ];

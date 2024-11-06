@@ -1,6 +1,5 @@
 "use client";
 import {
-  ConfirmationModal,
   Header,
   Modal,
   ReusableForm,
@@ -28,10 +27,10 @@ import { savePayment } from "@/app/services/payments/savePayment";
 type Props = { payments: Payment[] };
 
 export const Payments = ({ payments }: Props) => {
+  const pathname = usePathname();
   const [isClient, setIsClient] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoadingButton, setIsLoadingButton] = useState(false);
-  const pathname = usePathname();
   const control = useForm<Payment>({
     mode: "onChange",
   });
