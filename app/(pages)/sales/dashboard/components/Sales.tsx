@@ -93,7 +93,7 @@ export const Sales = ({ sales }: Props) => {
 
   return (
     <section onClick={() => setShowCalendar(false)}>
-      <Header>
+      <Header defaultTitle="Listado de ventas">
         <div className="flex justify-end p-4 relative">
           <Button
             color="red"
@@ -120,73 +120,65 @@ export const Sales = ({ sales }: Props) => {
 
       {isClient && (
         <>
-          <div className="h-[calc(100vh-8rem)] overflow-auto">
-            <TableContainer
-              className=" mx-auto py-8 flex flex-wrap gap-4 p-4"
-              component={Paper}
-            >
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Username</TableCell>
-                    <TableCell>Total</TableCell>
-                    <TableCell>Sucursal</TableCell>
-                    <TableCell>Fecha</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {currentDays.map(([day, turns]) => (
-                    <>
-                      {Object.entries(turns).map(
-                        ([turno, { total, sales }]) => (
-                          <>
-                            <TableRow
-                              key={`${day}-${turno}`}
-                              className="bg-gray-200 !w-full"
-                            >
-                              <TableCell colSpan={6} className="font-bold">
-                                Día: {day} - Turno: {turno} - Total: $
-                                {total.toFixed(2)}
-                              </TableCell>
-                            </TableRow>
+          <TableContainer component={Paper} className="h-[calc(100vh-8rem)]">
+            <Table stickyHeader aria-label="sessions table">
+              <TableHead>
+                <TableRow>
+                  <TableCell className="font-bold">Usuario</TableCell>
+                  <TableCell className="font-bold">Total</TableCell>
+                  <TableCell className="font-bold">Fecha</TableCell>
+                  <TableCell className="font-bold">Acciones</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {currentDays.map(([day, turns]) => (
+                  <>
+                    {Object.entries(turns).map(([turno, { total, sales }]) => (
+                      <>
+                        <TableRow
+                          key={`${day}-${turno}`}
+                          className="bg-gray-200 !w-full"
+                        >
+                          <TableCell colSpan={6} className="font-bold">
+                            Día: {day} - Turno: {turno} - Total: $
+                            {total.toFixed(2)}
+                          </TableCell>
+                        </TableRow>
 
-                            {sales.map((sale) => (
-                              <TableRow key={sale.id} className=" w-full">
-                                <TableCell>{sale.username}</TableCell>
-                                <TableCell>
-                                  ${sale.total_amount.toFixed(2)}
-                                </TableCell>
-                                <TableCell>{sale.branch}</TableCell>
-                                <TableCell>
-                                  {new Date(sale.sale_date).toLocaleString()}
-                                </TableCell>
-                                <TableCell>
-                                  <IconButton
-                                    aria-label="ver detalle"
-                                    className="hover:bg-gray-200"
-                                    onClick={() => {
-                                      setSelectedTurno(turno); // Guardar el turno
-                                      router.replace(
-                                        `${BASE_PATH}/${pathname}?id=${sale.id}`
-                                      );
-                                      setOpenDrawer(true);
-                                      setShowCalendar(false);
-                                    }}
-                                  >
-                                    <VisibilityIcon />
-                                  </IconButton>
-                                </TableCell>
-                              </TableRow>
-                            ))}
-                          </>
-                        )
-                      )}
-                    </>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </div>
+                        {sales.map((sale) => (
+                          <TableRow key={sale.id} className="w-full">
+                            <TableCell>{sale.username}</TableCell>
+                            <TableCell>
+                              ${sale.total_amount.toFixed(2)}
+                            </TableCell>
+                            <TableCell>
+                              {new Date(sale.sale_date).toLocaleString()}
+                            </TableCell>
+                            <TableCell>
+                              <IconButton
+                                aria-label="ver detalle"
+                                className="hover:bg-gray-200"
+                                onClick={() => {
+                                  setSelectedTurno(turno);
+                                  router.replace(
+                                    `${BASE_PATH}/${pathname}?id=${sale.id}`
+                                  );
+                                  setOpenDrawer(true);
+                                  setShowCalendar(false);
+                                }}
+                              >
+                                <VisibilityIcon />
+                              </IconButton>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </>
+                    ))}
+                  </>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
           <Pagination
             count={Math.ceil(days.length / salesPerPage)}
             page={currentPage}
@@ -194,7 +186,7 @@ export const Sales = ({ sales }: Props) => {
             className="flex justify-center my-4"
           />
           <Drawer anchor="right" open={openDrawer} onClose={handleCloseDrawer}>
-            {<SaleDetailClient shift={selectedTurno!} />}
+            <SaleDetailClient shift={selectedTurno!} />
           </Drawer>
         </>
       )}

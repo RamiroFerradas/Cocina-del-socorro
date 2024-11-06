@@ -7,15 +7,17 @@ import {
   Toast,
   toastErrorStyles,
   toastSuccessStyles,
+  Modal,
 } from "@/app/components";
 import { Product } from "@/app/models/Product";
 import { useState, useEffect } from "react";
 import { useCartStore } from "@/app/store/cart/useCartStore";
 import { saveSale } from "@/app/services/sales/saveSale";
 import { toast } from "react-toastify";
-import { CircularProgress } from "@mui/material";
-import { usePathname } from "next/navigation";
+import { CircularProgress, Box, Typography } from "@mui/material";
+import { usePathname, useRouter } from "next/navigation";
 import { PaymentMethod } from "@/app/models/PaymentMethod";
+import { isSessionActive } from "@/app/services/sessions/isSessionActive";
 
 type Props = {
   products: Product[];
@@ -26,10 +28,24 @@ export const Sell = ({ products }: Props) => {
   const [isLoadingButton, setIsLoadingButton] = useState(false);
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState<PaymentMethod>(PaymentMethod.Efectivo);
+  const [sessionActive, setSessionActive] = useState(true);
+  const [showSessionModal, setShowSessionModal] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     setIsClient(true);
+
+    const checkSession = async () => {
+      const activeSession = await isSessionActive();
+      setSessionActive(activeSession);
+
+      if (!activeSession) {
+        setShowSessionModal(true);
+      }
+    };
+
+    checkSession();
   }, []);
 
   const { cartItems, addToCart, updateQuantity, calculateTotal, clearCart } =
@@ -181,6 +197,20 @@ export const Sell = ({ products }: Props) => {
           </div>
         </div>
       )}
+
+      <Modal
+        isOpen={showSessionModal}
+        onClose={() => router.push("/sales/sessions")}
+        title="Turno cerrado"
+      >
+        <p>
+          No hay un turno abierto. Diríjase al apartado de turnos para abrir un
+          nuevo turno.
+        </p>
+        <Button onClick={() => router.push("/sales/sessions")} className="mt-6">
+          Ir a Turnos
+        </Button>
+      </Modal>
     </section>
   );
 };

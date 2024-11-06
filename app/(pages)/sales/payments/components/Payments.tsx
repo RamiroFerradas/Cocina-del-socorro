@@ -21,21 +21,37 @@ import {
 import { Payment } from "@/app/models/Payment";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { savePayment } from "@/app/services/payments/savePayment";
 
 type Props = { payments: Payment[] };
 
 export const Payments = ({ payments }: Props) => {
   const pathname = usePathname();
+  const router = useRouter();
   const [isClient, setIsClient] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoadingButton, setIsLoadingButton] = useState(false);
+  const [sessionActive, setSessionActive] = useState(true);
+  const [showSessionModal, setShowSessionModal] = useState(false);
   const control = useForm<Payment>({
     mode: "onChange",
   });
+
   useEffect(() => {
     setIsClient(true);
+
+    // Verificar si hay una sesión activa
+    const checkSession = async () => {
+      const activeSession = false; // Cambia esto por la lógica real de verificación
+      setSessionActive(activeSession);
+
+      if (!activeSession) {
+        setShowSessionModal(true);
+      }
+    };
+
+    checkSession();
   }, []);
 
   const handleSubmit = async (data: Payment) => {
@@ -61,10 +77,9 @@ export const Payments = ({ payments }: Props) => {
       toast(
         <Toast
           variant="error"
-          title="Error al guardar el producto"
+          title="Error al guardar el pago"
           text={
-            error.message ||
-            "Ocurrió un error inesperado al guardar el producto."
+            error.message || "Ocurrió un error inesperado al guardar el pago."
           }
         />,
         {
@@ -83,7 +98,11 @@ export const Payments = ({ payments }: Props) => {
         {isClient && (
           <button
             onClick={() => {
-              setIsModalOpen(true);
+              if (sessionActive) {
+                setIsModalOpen(true);
+              } else {
+                setShowSessionModal(true);
+              }
             }}
             className="flex items-center justify-center p-2 my-2 text-gray-700 hover:bg-gray-100 rounded-md transition-colors duration-200 bg-white border border-gray-300"
           >
@@ -93,7 +112,10 @@ export const Payments = ({ payments }: Props) => {
         )}
       </Header>
       {isClient && (
-        <TableContainer component={Paper}>
+        <TableContainer
+          component={Paper}
+          className="overflow-auto max-h-[70vh]"
+        >
           <Table aria-label="payments table">
             <TableHead>
               <TableRow>
@@ -122,6 +144,7 @@ export const Payments = ({ payments }: Props) => {
           </Table>
         </TableContainer>
       )}
+
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
@@ -130,11 +153,28 @@ export const Payments = ({ payments }: Props) => {
         <ReusableForm
           fields={paymentFields}
           onSubmit={handleSubmit}
-          // defaultValues={editingBranch!}
           onClose={() => setIsModalOpen(false)}
           isLoading={isLoadingButton}
           control={control}
         />
+      </Modal>
+
+      {/* Modal de sesión no activa */}
+      <Modal
+        isOpen={showSessionModal}
+        onClose={() => router.push("/sales/sessions")}
+        title="Sesión no activa"
+      >
+        <p className="mt-4">
+          No hay una sesión activa. Diríjase al apartado de turnos para abrir
+          una nueva sesión.
+        </p>
+        <button
+          onClick={() => router.push("/sales/sessions")}
+          className="mt-6 bg-blue-500 text-white px-4 py-2 rounded"
+        >
+          Ir a Turnos
+        </button>
       </Modal>
     </section>
   );
@@ -144,7 +184,7 @@ const paymentFields = [
   { name: "amount", label: "Monto", type: "number", required: true },
   {
     name: "description",
-    label: "Descripcion",
+    label: "Descripción",
     type: "textarea",
     required: true,
   },

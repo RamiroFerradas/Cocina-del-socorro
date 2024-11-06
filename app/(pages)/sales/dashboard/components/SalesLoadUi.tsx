@@ -15,7 +15,7 @@ type Props = {};
 
 export const SalesLoadUi = (props: Props) => {
   const rows = 5; // Número de filas es ajustable según el espacio disponible
-  const columns = ["ID", "Username", "Total Amount", "Branch", "Sale Date"];
+  const columns = ["ID", "Username", "Total Amount", "Sale Date"];
 
   return (
     <section>

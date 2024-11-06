@@ -36,7 +36,7 @@ export const Sessions = ({ sessions }: Props) => {
   const [isClient, setIsClient] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoadingButton, setIsLoadingButton] = useState(false);
-  const [currentSessions, setCurrentSessions] = useState(sessions);
+  const [currentSessions, setCurrentSessions] = useState<Session[]>([]);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const [currentActionType, setCurrentActionType] = useState<
     "open" | "close" | null
@@ -50,6 +50,9 @@ export const Sessions = ({ sessions }: Props) => {
   useEffect(() => {
     setIsClient(true);
   }, []);
+  useEffect(() => {
+    setCurrentSessions(sessions);
+  }, [sessions]);
 
   const handleOpenConfirmationModal = (
     actionType: "open" | "close",
@@ -78,8 +81,8 @@ export const Sessions = ({ sessions }: Props) => {
       toast(
         <Toast
           variant="success"
-          title={"Pago agregado"}
-          text={"Pago agregado exitosamente."}
+          title={"Turno abierto"}
+          text={"Pago abierto exitosamente."}
         />,
         {
           hideProgressBar: true,
@@ -115,7 +118,7 @@ export const Sessions = ({ sessions }: Props) => {
         <Toast
           variant="success"
           title="Turno cerrado"
-          text="La sesión ha sido cerrada exitosamente."
+          text="El turno ha sido cerrado."
         />,
         {
           hideProgressBar: true,
@@ -174,52 +177,57 @@ export const Sessions = ({ sessions }: Props) => {
                 <TableCell className="font-bold">Acciones</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>
-              {currentSessions.map((session) => (
-                <TableRow key={session.id}>
-                  <TableCell>
-                    <span
-                      className={`px-2 py-1 rounded ${
-                        session.active
-                          ? "bg-green-100 text-green-800"
-                          : "bg-red-100 text-red-800"
-                      }`}
-                    >
-                      {session.active ? "Abierto" : "Cerrado"}
-                    </span>
-                  </TableCell>
-                  <TableCell>
-                    {new Date(session.session_created).toLocaleString()}
-                  </TableCell>
-                  <TableCell>{session.opening_balance}</TableCell>
-                  <TableCell>{session.total_balance}</TableCell>
-                  <TableCell>
-                    {session.session_ended
-                      ? new Date(session.session_ended).toLocaleString()
-                      : "En curso"}
-                  </TableCell>
-                  <TableCell>{session.id}</TableCell>
-                  <TableCell>{session.username}</TableCell>
-                  <TableCell>{session.final_balance}</TableCell>
-                  <TableCell>
-                    {session.active && (
-                      <Button
-                        variant="contained"
-                        color="error"
-                        onClick={() =>
-                          handleOpenConfirmationModal("close", session.id)
-                        }
-                      >
-                        Cerrar
-                      </Button>
-                    )}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
           </Table>
+          <div style={{ maxHeight: "calc(100vh - 7.6rem)", overflow: "auto" }}>
+            <Table aria-label="sessions table">
+              <TableBody>
+                {currentSessions.map((session) => (
+                  <TableRow key={session.id}>
+                    <TableCell>
+                      <span
+                        className={`px-2 py-1 rounded ${
+                          session.active
+                            ? "bg-green-100 text-green-800"
+                            : "bg-red-100 text-red-800"
+                        }`}
+                      >
+                        {session.active ? "Abierto" : "Cerrado"}
+                      </span>
+                    </TableCell>
+                    <TableCell>
+                      {new Date(session.session_created).toLocaleString()}
+                    </TableCell>
+                    <TableCell>{session.opening_balance}</TableCell>
+                    <TableCell>{session.total_balance}</TableCell>
+                    <TableCell>
+                      {session.session_ended
+                        ? new Date(session.session_ended).toLocaleString()
+                        : "En curso"}
+                    </TableCell>
+                    <TableCell>{session.id}</TableCell>
+                    <TableCell>{session.username}</TableCell>
+                    <TableCell>{session.final_balance}</TableCell>
+                    <TableCell>
+                      {session.active && (
+                        <Button
+                          variant="contained"
+                          color="error"
+                          onClick={() =>
+                            handleOpenConfirmationModal("close", session.id)
+                          }
+                        >
+                          Cerrar
+                        </Button>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         </TableContainer>
       )}
+
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
